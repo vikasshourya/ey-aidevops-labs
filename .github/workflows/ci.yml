@@ -72,14 +72,14 @@ jobs:
 
       - name: Build and push API image
         run: |
-          $image = "$env:ACR_LOGIN_SERVER/$env:NAMESPACE/shipwave-api:${{ github.sha }}"
-          docker build -t $image ./api
-          docker push $image
+          image="$ACR_LOGIN_SERVER/$NAMESPACE/shipwave-api:${{ github.sha }}"
+          docker build -t "$image" ./api
+          docker push "$image"
 
       - name: Verify non-root user
         run: |
-          $image = "$env:ACR_LOGIN_SERVER/$env:NAMESPACE/shipwave-api:${{ github.sha }}"
-          docker run --rm --entrypoint id $image
+          image="$ACR_LOGIN_SERVER/$NAMESPACE/shipwave-api:${{ github.sha }}"
+          docker run --rm --entrypoint id "$image"
 
   deploy:
     name: deploy
@@ -110,7 +110,7 @@ jobs:
       - name: Deploy API chart
         shell: pwsh
         run: |
-          helm upgrade --install shipwave ./helm `
+          helm upgrade --install shipwave-api ./helm `
             --namespace $env:NAMESPACE `
             --create-namespace `
             --set image.repository=$env:ACR_LOGIN_SERVER/$env:NAMESPACE/shipwave-api `
