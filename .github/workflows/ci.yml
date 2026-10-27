@@ -100,54 +100,31 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Configure kubeconfig
-        shell: pwsh
         run: |
-          $kubeconfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${{ secrets.KUBECONFIG_B64 }}'))
-          $kubeconfigPath = Join-Path $env:RUNNER_TEMP 'kubeconfig'
-          Set-Content -Path $kubeconfigPath -Value $kubeconfig -NoNewline
-          "KUBECONFIG=$kubeconfigPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
 
       - name: Deploy API chart
-        shell: pwsh
         run: |
-          helm upgrade --install shipwave-api ./helm `
-            --namespace $env:NAMESPACE `
-            `
-            --set image.repository=$env:ACR_LOGIN_SERVER/$env:NAMESPACE/shipwave-api `
-            --set image.tag=${{ github.sha }} `
-            --wait `
-            --timeout 3m
+          helm upgrade --install shipwave-api helm/ -n "$NAMESPACE" \
+            --set image.repository="$ACR_LOGIN_SERVER/$NAMESPACE/shipwave-api" \
+            --set image.tag="${{ github.sha }}" \
+            --wait --timeout 3m
 
       - name: Wait for API rollout
-        shell: pwsh
-        run: kubectl -n $env:NAMESPACE rollout status deployment/shipwave-api --timeout=180s
+        run: kubectl -n "$NAMESPACE" rollout status deployment/shipwave-api --timeout=180s
 
       - name: Check pod readiness
-        shell: pwsh
-        run: kubectl -n $env:NAMESPACE get pods
+        run: kubectl -n "$NAMESPACE" get pods
 
       - name: Port-forward and verify health
-        shell: pwsh
         run: |
-          $job = Start-Job -ScriptBlock { kubectl -n $using:NAMESPACE port-forward svc/shipwave-api 8080:8000 }
-          try {
-            $ready = $false
-            for ($i = 0; $i -lt 30; $i++) {
-              try {
-                $response = Invoke-WebRequest -Uri http://127.0.0.1:8080/health -UseBasicParsing -TimeoutSec 2
-                if ($response.StatusCode -eq 200) {
-                  $ready = $true
-                  break
-                }
-              } catch {
-                Start-Sleep -Seconds 2
-              }
-            }
-            if (-not $ready) {
-              throw 'Health endpoint did not return HTTP 200'
-            }
-          } finally {
-            Stop-Job $job -ErrorAction SilentlyContinue | Out-Null
-            Receive-Job $job -ErrorAction SilentlyContinue | Out-Null
-            Remove-Job $job -ErrorAction SilentlyContinue | Out-Null
-          }
+          kubectl -n "$NAMESPACE" port-forward svc/shipwave-api 8080:8000 &
+          PF=$!
+          trap "kill $PF" EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/health; then exit 0; fi
+            sleep 2
+          done
+          echo "Health endpoint did not return HTTP 200"; exit 1
