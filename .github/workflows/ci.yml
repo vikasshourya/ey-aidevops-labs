@@ -112,7 +112,7 @@ jobs:
         run: |
           helm upgrade --install shipwave-api ./helm `
             --namespace $env:NAMESPACE `
-            --create-namespace `
+            `
             --set image.repository=$env:ACR_LOGIN_SERVER/$env:NAMESPACE/shipwave-api `
             --set image.tag=${{ github.sha }} `
             --wait `
