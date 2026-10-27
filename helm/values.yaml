@@ -1,23 +1,10 @@
 # The worker image is pre-built and shared by the trainer.
-api:
-  image:
-    repository: eylabacr31b021.azurecr.io/shipwave-api
-    tag: "1.0"
-  replicaCount: 1
-  service:
-    type: ClusterIP
-    port: 80
-    targetPort: 8000
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 250m
-      memory: 128Mi
-  apiKey: "change-me"
-
 worker:
   image:
     repository: eylabacr31b021.azurecr.io/shared/shipwave-worker
     tag: "1.0"
+
+# API image: the pipeline sets the tag to the commit SHA at deploy time.
+image:
+  repository: eylabacr31b021.azurecr.io/ff-u07/shipwave-api
+  tag: initial
