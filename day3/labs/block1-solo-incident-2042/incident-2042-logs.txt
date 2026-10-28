@@ -1,0 +1,112 @@
+2026-10-22 09:31:10 WARN  [worker] memory usage 70% of limit (512Mi)
+2026-10-22 09:31:34 INFO  [worker] health check ok
+2026-10-22 09:31:37 INFO  [worker] cache hit ratio 0.92
+2026-10-22 09:33:44 INFO  [notification-service] request completed in 53ms
+2026-10-22 09:34:38 INFO  [tracking-api] request completed in 104ms
+2026-10-22 09:35:19 INFO  [ui-bff] cache hit ratio 0.93
+2026-10-22 09:37:58 INFO  [tracking-api] request completed in 52ms
+2026-10-22 09:38:12 WARN  [notification-service] TLS certificate for smtp.relay.internal expires in 3 days
+2026-10-22 09:39:34 INFO  [ui-bff] health check ok
+2026-10-22 09:40:12 INFO  [gateway] health check ok
+2026-10-22 09:40:17 INFO  [payment-service] health check ok
+2026-10-22 09:40:51 INFO  [gateway] cache hit ratio 0.92
+2026-10-22 09:40:54 INFO  [ui-bff] GET /shipments 200
+2026-10-22 09:41:03 INFO  [ui-bff] cache hit ratio 0.90
+2026-10-22 09:41:52 INFO  [tracking-api] request completed in 110ms
+2026-10-22 09:42:06 INFO  [gateway] cache hit ratio 0.92
+2026-10-22 09:44:13 INFO  [ui-bff] GET /shipments 200
+2026-10-22 09:45:20 WARN  [worker] memory usage 80% of limit (512Mi)
+2026-10-22 09:45:27 INFO  [worker] health check ok
+2026-10-22 09:46:52 INFO  [ui-bff] cache hit ratio 0.92
+2026-10-22 09:47:23 INFO  [ui-bff] request completed in 115ms
+2026-10-22 09:49:55 INFO  [tracking-api] cache hit ratio 0.90
+2026-10-22 09:50:25 INFO  [notification-service] health check ok
+2026-10-22 09:51:04 INFO  [tracking-api] request completed in 108ms
+2026-10-22 09:51:13 INFO  [worker] health check ok
+2026-10-22 09:52:41 WARN  [worker] disk usage 78% on /var/data
+2026-10-22 09:53:08 INFO  [gateway] health check ok
+2026-10-22 09:54:19 INFO  [ui-bff] request completed in 120ms
+2026-10-22 09:55:35 INFO  [gateway] cache hit ratio 0.92
+2026-10-22 09:55:43 INFO  [tracking-api] cache hit ratio 0.92
+2026-10-22 09:56:00 INFO  [worker] health check ok
+2026-10-22 09:57:02 INFO  [worker] health check ok
+2026-10-22 09:57:04 INFO  [ui-bff] health check ok
+2026-10-22 09:57:37 INFO  [ui-bff] cache hit ratio 0.91
+2026-10-22 09:57:55 INFO  [worker] request completed in 108ms
+2026-10-22 09:57:59 INFO  [tracking-api] request completed in 128ms
+2026-10-22 09:59:30 WARN  [worker] memory usage 90% of limit (512Mi)
+2026-10-22 09:59:48 INFO  [worker] GET /shipments 200
+2026-10-22 10:00:51 INFO  [tracking-api] cache hit ratio 0.92
+2026-10-22 10:02:28 INFO  [worker] request completed in 69ms
+2026-10-22 10:02:41 INFO  [ui-bff] health check ok
+2026-10-22 10:04:26 INFO  [worker] GET /shipments 200
+2026-10-22 10:05:10 INFO  [deploy] ui-bff v1.9.3 rollout started (change: update footer text)
+2026-10-22 10:05:30 INFO  [ui-bff] health check ok
+2026-10-22 10:05:55 INFO  [deploy] ui-bff v1.9.3 rollout finished
+2026-10-22 10:06:15 WARN  [worker] memory usage 95% of limit (512Mi)
+2026-10-22 10:07:27 INFO  [ui-bff] cache hit ratio 0.90
+2026-10-22 10:08:41 INFO  [tracking-api] health check ok
+2026-10-22 10:09:32 INFO  [payment-service] cache hit ratio 0.92
+2026-10-22 10:09:54 INFO  [gateway] request completed in 89ms
+2026-10-22 10:10:15 INFO  [worker] request completed in 93ms
+2026-10-22 10:10:42 INFO  [notification-service] request completed in 99ms
+2026-10-22 10:11:28 INFO  [gateway] request completed in 76ms
+2026-10-22 10:12:20 ERROR [worker] container OOMKilled (memory limit 512Mi, usage 512Mi)
+2026-10-22 10:12:45 INFO  [worker] worker v3.1.0 started, in-memory cache empty
+2026-10-22 10:13:05 WARN  [tracking-api] no heartbeat from worker for 45s, shipment status may be stale
+2026-10-22 10:14:00 WARN  [worker] queue backlog 1800 messages (normal: under 50)
+2026-10-22 10:14:30 WARN  [ui-bff] shipment status may be out of date (last update 4 min ago)
+2026-10-22 10:14:40 ERROR [worker] back-off: restart count increased (CrashLoopBackOff)
+2026-10-22 10:14:50 WARN  [ui-bff] shipment status may be out of date (last update 5 min ago)
+2026-10-22 10:15:10 WARN  [ui-bff] shipment status may be out of date (last update 5 min ago)
+2026-10-22 10:15:50 WARN  [ui-bff] shipment status may be out of date (last update 6 min ago)
+2026-10-22 10:16:00 WARN  [worker] memory usage 70% of limit (512Mi)
+2026-10-22 10:16:05 WARN  [ui-bff] shipment status may be out of date (last update 6 min ago)
+2026-10-22 10:16:30 WARN  [ui-bff] shipment status may be out of date (last update 6 min ago)
+2026-10-22 10:17:10 WARN  [ui-bff] shipment status may be out of date (last update 7 min ago)
+2026-10-22 10:17:20 WARN  [ui-bff] shipment status may be out of date (last update 7 min ago)
+2026-10-22 10:17:23 INFO  [gateway] GET /shipments 200
+2026-10-22 10:17:50 WARN  [ui-bff] shipment status may be out of date (last update 8 min ago)
+2026-10-22 10:18:30 WARN  [ui-bff] shipment status may be out of date (last update 8 min ago)
+2026-10-22 10:19:00 WARN  [worker] memory usage 92% of limit (512Mi)
+2026-10-22 10:19:10 WARN  [ui-bff] shipment status may be out of date (last update 9 min ago)
+2026-10-22 10:19:36 INFO  [payment-service] request completed in 117ms
+2026-10-22 10:19:50 WARN  [ui-bff] shipment status may be out of date (last update 10 min ago)
+2026-10-22 10:21:05 WARN  [ui-bff] shipment status may be out of date (last update 11 min ago)
+2026-10-22 10:21:16 INFO  [gateway] GET /shipments 200
+2026-10-22 10:21:35 ERROR [worker] container OOMKilled (memory limit 512Mi, usage 512Mi)
+2026-10-22 10:22:00 INFO  [worker] worker v3.1.0 started, in-memory cache empty
+2026-10-22 10:22:20 WARN  [ui-bff] shipment status may be out of date (last update 12 min ago)
+2026-10-22 10:22:30 WARN  [worker] queue backlog 4100 messages (normal: under 50)
+2026-10-22 10:22:34 INFO  [gateway] health check ok
+2026-10-22 10:23:14 INFO  [payment-service] request completed in 112ms
+2026-10-22 10:23:23 INFO  [payment-service] cache hit ratio 0.93
+2026-10-22 10:23:50 ERROR [worker] back-off: restart count increased (CrashLoopBackOff)
+2026-10-22 10:24:00 WARN  [ui-bff] shipment status may be out of date (last update 14 min ago)
+2026-10-22 10:24:38 INFO  [notification-service] GET /shipments 200
+2026-10-22 10:25:08 INFO  [ui-bff] GET /shipments 200
+2026-10-22 10:25:14 INFO  [gateway] cache hit ratio 0.92
+2026-10-22 10:25:29 INFO  [gateway] cache hit ratio 0.92
+2026-10-22 10:25:30 INFO  [notification-service] cache hit ratio 0.90
+2026-10-22 10:25:40 WARN  [ui-bff] shipment status may be out of date (last update 16 min ago)
+2026-10-22 10:26:29 INFO  [ui-bff] health check ok
+2026-10-22 10:26:41 INFO  [notification-service] cache hit ratio 0.90
+2026-10-22 10:27:10 WARN  [ui-bff] shipment status may be out of date (last update 17 min ago)
+2026-10-22 10:27:17 INFO  [gateway] GET /shipments 200
+2026-10-22 10:27:41 INFO  [payment-service] health check ok
+2026-10-22 10:27:48 INFO  [gateway] GET /shipments 200
+2026-10-22 10:27:55 INFO  [gateway] health check ok
+2026-10-22 10:28:20 ERROR [worker] back-off: restart count increased (CrashLoopBackOff)
+2026-10-22 10:28:29 INFO  [notification-service] request completed in 110ms
+2026-10-22 10:29:05 ERROR [worker] container OOMKilled (memory limit 512Mi, usage 512Mi)
+2026-10-22 10:29:30 INFO  [worker] worker v3.1.0 started, in-memory cache empty
+2026-10-22 10:29:39 INFO  [notification-service] health check ok
+2026-10-22 10:30:04 INFO  [ui-bff] health check ok
+2026-10-22 10:30:10 WARN  [worker] queue backlog 6900 messages (normal: under 50)
+2026-10-22 10:31:00 WARN  [tracking-api] no heartbeat from worker for 90s, shipment status may be stale
+2026-10-22 10:31:04 INFO  [ui-bff] GET /shipments 200
+2026-10-22 10:31:11 INFO  [notification-service] health check ok
+2026-10-22 10:31:34 INFO  [notification-service] health check ok
+2026-10-22 10:32:00 WARN  [tracking-api] no heartbeat from worker for 150s, shipment status may be stale
+2026-10-22 10:33:23 INFO  [notification-service] cache hit ratio 0.93
+2026-10-22 10:33:53 INFO  [notification-service] cache hit ratio 0.91

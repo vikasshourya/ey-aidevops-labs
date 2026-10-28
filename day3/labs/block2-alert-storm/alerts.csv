@@ -1,0 +1,49 @@
+time,service,alert,severity
+10:30:00,notification-service,CertExpiringSoon (3 days),warning
+10:30:30,worker,DiskUsageHigh 78%,warning
+10:35:00,notification-service,CertExpiringSoon (3 days),warning
+10:40:00,notification-service,CertExpiringSoon (3 days),warning
+10:40:30,worker,DiskUsageHigh 78%,warning
+10:44:30,tracking-api,DBPoolSaturated,critical
+10:44:45,tracking-api,HighErrorRate >5%,critical
+10:44:55,tracking-api,HighErrorRate >5%,critical
+10:45:00,notification-service,CertExpiringSoon (3 days),warning
+10:45:05,payment-service,UpstreamTimeout tracking-api,critical
+10:45:10,tracking-api,HighLatencyP95 >1s,warning
+10:45:12,payment-service,UpstreamTimeout tracking-api,critical
+10:45:19,payment-service,UpstreamTimeout tracking-api,critical
+10:45:23,tracking-api,HighLatencyP95 >1s,warning
+10:45:26,payment-service,UpstreamTimeout tracking-api,critical
+10:45:36,tracking-api,HighLatencyP95 >1s,warning
+10:45:65,tracking-api,HighErrorRate >5%,critical
+10:45:75,tracking-api,HighErrorRate >5%,critical
+10:46:12,gateway,High5xxRate,critical
+10:46:12,tracking-api,HighLatencyP95 >1s,warning
+10:46:21,gateway,High5xxRate,critical
+10:46:30,gateway,High5xxRate,critical
+10:46:33,payment-service,UpstreamTimeout tracking-api,critical
+10:46:40,payment-service,UpstreamTimeout tracking-api,critical
+10:46:47,payment-service,UpstreamTimeout tracking-api,critical
+10:46:49,tracking-api,HighLatencyP95 >1s,warning
+10:46:54,payment-service,UpstreamTimeout tracking-api,critical
+10:47:20,ui-bff,WidgetFailureRate,warning
+10:47:28,ui-bff,WidgetFailureRate,warning
+10:47:36,ui-bff,WidgetFailureRate,warning
+10:47:39,gateway,High5xxRate,critical
+10:47:48,gateway,High5xxRate,critical
+10:47:57,gateway,High5xxRate,critical
+10:48:44,ui-bff,WidgetFailureRate,warning
+10:48:52,ui-bff,WidgetFailureRate,warning
+10:49:15,tracking-api,PodNotReady,critical
+10:50:00,notification-service,CertExpiringSoon (3 days),warning
+10:50:15,tracking-api,PodNotReady,critical
+10:50:30,worker,DiskUsageHigh 78%,warning
+10:50:45,tracking-api,CPUThrottling,warning
+10:51:15,tracking-api,PodNotReady,critical
+10:55:00,notification-service,CertExpiringSoon (3 days),warning
+10:55:10,tracking-api,DeploymentRollbackDetected,info
+10:57:05,gateway,High5xxRate RESOLVED,info
+10:58:05,gateway,High5xxRate RESOLVED,info
+10:58:40,payment-service,UpstreamTimeout RESOLVED,info
+10:58:50,tracking-api,DBPoolSaturated RESOLVED,info
+10:59:05,gateway,High5xxRate RESOLVED,info

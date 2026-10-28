@@ -1,0 +1,129 @@
+2026-10-21 10:30:25 INFO  [payment-service] health check ok
+2026-10-21 10:30:52 INFO  [tracking-api] health check ok
+2026-10-21 10:31:02 INFO  [gateway] request completed in 51ms
+2026-10-21 10:31:12 WARN  [notification-service] TLS certificate for smtp.relay.internal expires in 3 days
+2026-10-21 10:31:58 INFO  [payment-service] GET /shipments 200
+2026-10-21 10:32:03 INFO  [gateway] health check ok
+2026-10-21 10:32:15 INFO  [ui-bff] request completed in 51ms
+2026-10-21 10:33:03 INFO  [gateway] health check ok
+2026-10-21 10:33:36 INFO  [tracking-api] request completed in 114ms
+2026-10-21 10:34:18 INFO  [worker] GET /shipments 200
+2026-10-21 10:34:34 INFO  [tracking-api] cache hit ratio 0.91
+2026-10-21 10:35:06 INFO  [worker] GET /shipments 200
+2026-10-21 10:35:23 INFO  [tracking-api] health check ok
+2026-10-21 10:36:39 INFO  [worker] request completed in 66ms
+2026-10-21 10:36:40 WARN  [worker] disk usage 78% on /var/data
+2026-10-21 10:36:43 INFO  [gateway] request completed in 108ms
+2026-10-21 10:37:19 INFO  [ui-bff] GET /shipments 200
+2026-10-21 10:37:37 INFO  [payment-service] cache hit ratio 0.91
+2026-10-21 10:38:36 INFO  [tracking-api] request completed in 78ms
+2026-10-21 10:38:56 INFO  [gateway] request completed in 83ms
+2026-10-21 10:39:07 INFO  [payment-service] request completed in 105ms
+2026-10-21 10:39:10 INFO  [gateway] GET /shipments 200
+2026-10-21 10:40:02 INFO  [ui-bff] cache hit ratio 0.91
+2026-10-21 10:40:05 INFO  [deploy] tracking-api v2.4.1 rollout started (change: retry DB query on timeout, max 5 retries)
+2026-10-21 10:40:21 INFO  [worker] request completed in 84ms
+2026-10-21 10:41:04 INFO  [worker] cache hit ratio 0.91
+2026-10-21 10:41:30 INFO  [ui-bff] health check ok
+2026-10-21 10:41:30 INFO  [deploy] tracking-api v2.4.1 rollout complete, 3/3 pods ready
+2026-10-21 10:42:01 INFO  [ui-bff] cache hit ratio 0.91
+2026-10-21 10:42:18 INFO  [payment-service] cache hit ratio 0.91
+2026-10-21 10:42:20 INFO  [tracking-api] db pool in use=41/100
+2026-10-21 10:43:10 WARN  [tracking-api] db query timeout after 2000ms, retry 1/5
+2026-10-21 10:43:31 INFO  [tracking-api] GET /shipments 200
+2026-10-21 10:43:41 INFO  [tracking-api] db pool in use=78/100
+2026-10-21 10:43:49 INFO  [gateway] GET /shipments 200
+2026-10-21 10:44:02 WARN  [tracking-api] db query timeout after 2000ms, retry 2/5
+2026-10-21 10:44:10 INFO  [ui-bff] request completed in 97ms
+2026-10-21 10:44:25 INFO  [tracking-api] health check ok
+2026-10-21 10:44:30 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:35 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:39 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:43 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:47 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:51 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:44:55 ERROR [tracking-api] sqlalchemy.exc.TimeoutError: QueuePool limit of size 100 overflow 0 reached, connection timed out, timeout 30
+2026-10-21 10:45:00 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:05 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:10 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:15 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:20 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:25 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:30 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:35 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:40 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:45 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:50 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:55 INFO  [payment-service] cache hit ratio 0.91
+2026-10-21 10:45:55 ERROR [payment-service] upstream timeout calling tracking-api GET /shipments/status after 5000ms
+2026-10-21 10:45:56 INFO  [worker] request completed in 57ms
+2026-10-21 10:46:00 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:07 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:09 INFO  [payment-service] GET /shipments 200
+2026-10-21 10:46:14 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:21 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:28 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:35 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:42 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:46:43 INFO  [ui-bff] GET /shipments 200
+2026-10-21 10:46:49 ERROR [gateway] 502 Bad Gateway from payment-service route /pay
+2026-10-21 10:47:00 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:07 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:14 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:21 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:28 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:31 INFO  [worker] GET /shipments 200
+2026-10-21 10:47:35 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:42 INFO  [tracking-api] health check ok
+2026-10-21 10:47:42 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:47:49 ERROR [gateway] 504 Gateway Timeout from tracking-api route /track
+2026-10-21 10:48:00 INFO  [payment-service] request completed in 58ms
+2026-10-21 10:48:00 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:48:09 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:48:18 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:48:27 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:48:34 INFO  [worker] cache hit ratio 0.91
+2026-10-21 10:48:36 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:48:45 ERROR [ui-bff] tracking widget failed: 504 from gateway
+2026-10-21 10:49:10 ERROR [tracking-api] readiness probe failed for pod tracking-api-7d9c-xk2lp
+2026-10-21 10:49:25 INFO  [gateway] request completed in 91ms
+2026-10-21 10:49:29 INFO  [tracking-api] request completed in 111ms
+2026-10-21 10:50:12 INFO  [ui-bff] GET /shipments 200
+2026-10-21 10:50:20 WARN  [tracking-api] db query timeout after 2000ms, retry 5/5, giving up
+2026-10-21 10:50:40 INFO  [gateway] health check ok
+2026-10-21 10:51:06 INFO  [tracking-api] GET /shipments 200
+2026-10-21 10:51:07 INFO  [ui-bff] health check ok
+2026-10-21 10:52:00 INFO  [oncall] incident declared INC-2041 sev2, checkout and tracking degraded
+2026-10-21 10:52:04 INFO  [gateway] request completed in 66ms
+2026-10-21 10:52:23 INFO  [worker] health check ok
+2026-10-21 10:53:22 INFO  [tracking-api] cache hit ratio 0.91
+2026-10-21 10:53:30 INFO  [payment-service] health check ok
+2026-10-21 10:54:05 INFO  [worker] health check ok
+2026-10-21 10:54:30 INFO  [ui-bff] cache hit ratio 0.91
+2026-10-21 10:55:10 INFO  [deploy] rollback tracking-api to v2.4.0 started
+2026-10-21 10:55:13 INFO  [worker] cache hit ratio 0.91
+2026-10-21 10:55:30 INFO  [payment-service] health check ok
+2026-10-21 10:56:40 INFO  [deploy] rollback complete, 3/3 pods ready
+2026-10-21 10:56:41 INFO  [gateway] cache hit ratio 0.91
+2026-10-21 10:56:48 INFO  [tracking-api] cache hit ratio 0.91
+2026-10-21 10:57:15 INFO  [tracking-api] db pool in use=22/100
+2026-10-21 10:57:49 INFO  [payment-service] cache hit ratio 0.91
+2026-10-21 10:57:58 INFO  [worker] cache hit ratio 0.91
+2026-10-21 10:58:30 INFO  [payment-service] upstream tracking-api healthy again
+2026-10-21 10:58:47 INFO  [worker] GET /shipments 200
+2026-10-21 10:58:51 INFO  [tracking-api] request completed in 70ms
+2026-10-21 10:59:22 INFO  [worker] health check ok
+2026-10-21 10:59:50 INFO  [ui-bff] request completed in 75ms
+2026-10-21 11:00:00 INFO  [oncall] incident INC-2041 resolved, monitoring
+2026-10-21 11:00:28 INFO  [tracking-api] cache hit ratio 0.91
+2026-10-21 11:00:44 INFO  [payment-service] cache hit ratio 0.91
+2026-10-21 11:01:06 INFO  [gateway] request completed in 69ms
+2026-10-21 11:01:12 INFO  [tracking-api] GET /shipments 200
+2026-10-21 11:02:30 INFO  [ui-bff] health check ok
+2026-10-21 11:02:53 INFO  [gateway] request completed in 55ms
+2026-10-21 11:03:50 INFO  [ui-bff] health check ok
+2026-10-21 11:03:56 INFO  [tracking-api] request completed in 62ms
+2026-10-21 11:04:10 INFO  [worker] health check ok
+2026-10-21 11:04:25 INFO  [ui-bff] GET /shipments 200
+2026-10-21 11:05:42 INFO  [ui-bff] GET /shipments 200
+2026-10-21 11:05:51 INFO  [tracking-api] request completed in 58ms

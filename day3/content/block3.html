@@ -1,0 +1,285 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lab 3: Rescue a failed pipeline with Harness AI</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ac2:#7a3cf0;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ac2:#b08cff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615;--bad:#ff7b6b}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:32px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.hero{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;border-radius:16px;padding:22px 24px;margin:14px 0}
+.hero h1{margin:0 0 6px;color:#fff}.hero p{margin:4px 0;font-size:19px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:15px}
+.what{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px;margin:14px 0}
+.what div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;border-top:4px solid var(--ac)}
+.what div:nth-child(2){border-top-color:var(--bad)}.what div:nth-child(3){border-top-color:var(--ac2)}.what div:nth-child(4){border-top-color:var(--ok)}
+.what b.h{display:block;font-size:19px;margin-bottom:2px}
+.band{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 16px;margin:34px 0 10px;color:#fff;font-size:22px;font-weight:700}
+.band small{font-weight:400;font-size:16px;opacity:.9;margin-left:auto}
+.band.s{background:#566}.band.a{background:linear-gradient(120deg,#c26a00,#e08a00)}.band.b{background:linear-gradient(120deg,var(--ac2),var(--ac))}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:12px 0;display:flex;gap:14px}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step .c{flex:1;min-width:0}
+.step.fail .n{background:var(--bad)}.step.good .n{background:var(--ok)}
+.tag{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:1px 8px;background:var(--ac);color:#fff;margin-right:6px}
+.exp{font-size:16px;margin-top:4px;color:var(--mut)}
+.exp.bad{color:var(--bad);font-weight:700}.exp.ok{color:var(--ok);font-weight:700}
+pre.y{max-height:240px}pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac2);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 10px 10px 0}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:12px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+.vs{border:2px solid var(--ac);border-radius:12px;padding:10px 16px;margin:14px 0;background:var(--card)}.vs .row{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.vs .row b{min-width:150px}.vs button{font:inherit;font-size:15px;padding:2px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}.vs .t{font-variant-numeric:tabular-nums;font-size:22px;min-width:70px}.vs .res{font-weight:700;color:var(--ok);margin-top:6px}
+
+.flipbar{display:flex;justify-content:space-between;align-items:center}.flipbar button{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer}
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.fc{perspective:900px;height:290px;cursor:pointer;outline:none}.fc:focus-visible .in{box-shadow:0 0 0 3px var(--ac)}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.f .in{transform:rotateY(180deg)}
+.fc .fr,.fc .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.fc .fr{color:#fff;align-items:center;text-align:center}.fc .fr .ic{font-size:40px;line-height:1}.fc .fr b{font-size:21px;margin-top:6px}.fc .fr small{opacity:.85;margin-top:6px;font-size:14px}
+.fc .bk b.bt{font-size:18px;color:var(--ac)}.fc .bk{transform:rotateY(180deg);background:var(--card);border:2px solid var(--ac);font-size:16.5px;overflow:auto}
+.fc:nth-child(1) .fr{background:linear-gradient(135deg,#0a5cc4,#3a86ff)}.fc:nth-child(2) .fr{background:linear-gradient(135deg,#c0392b,#ef6c4d)}.fc:nth-child(3) .fr{background:linear-gradient(135deg,#7a3cf0,#a77bff)}.fc:nth-child(4) .fr{background:linear-gradient(135deg,#0b7a3b,#35b36b)}
+.fc:nth-child(2) .bk{border-color:var(--bad)}.fc:nth-child(3) .bk{border-color:var(--ac2)}.fc:nth-child(4) .bk{border-color:var(--ok)}
+.sim{border:2px solid var(--ac2);border-radius:16px;padding:14px 18px;margin:16px 0;background:var(--card)}
+.sim h3{margin:0 0 4px;font-size:21px}.sim .sub{color:var(--mut);font-size:16px;margin-bottom:10px}
+.sim .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sim .col{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.sim .col h4{margin:0 0 8px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;background:var(--bd);display:block;transition:background .4s,transform .4s}
+.grid i.nw{background:var(--ok);transform:scale(1.1)}.grid i.bd{background:var(--bad)}
+.chaos i{animation:flick 1.4s infinite}
+@keyframes flick{0%{background:#e0a800}25%{background:#c0392b}50%{background:#7a3cf0}75%{background:#0a5cc4}100%{background:#e0a800}}
+.pipe{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}.pipe span{flex:1;min-width:78px;text-align:center;font-size:14px;padding:6px 4px;border-radius:8px;background:var(--card);border:2px solid var(--bd);transition:.3s}
+.pipe span.on{border-color:var(--ac);background:var(--ac);color:#fff;transform:translateY(-2px)}
+.pipe span.ok{border-color:var(--ok);background:var(--ok);color:#fff}.pipe span.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.sim .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.sim .ctl button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.sim .ctl label{font-size:16px;cursor:pointer}
+.sim .msg{min-height:26px;font-weight:700;margin-top:6px}
+.vchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.vchips span{background:var(--ok);color:#fff;border-radius:999px;padding:4px 14px;font-size:16px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.chaos i{animation:none}.fc .in{transition:none}}
+.val{border-left:5px solid var(--ok);padding:6px 14px;margin:10px 0;background:var(--card);font-size:17px;border-radius:0 10px 10px 0}.val b{color:var(--ok)}
+.stuck{border:2px dashed var(--ac);border-radius:12px;padding:10px 16px;margin:16px 0;background:var(--card)}
+.stuck b.h{color:var(--ac)}
+.rules{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.rules span{background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:3px 12px;font-size:15px}
+.quiz{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:16px 0;background:var(--card)}
+.quiz .q{margin:14px 0;padding-bottom:10px;border-bottom:1px solid var(--bd)}.quiz .q:last-of-type{border-bottom:0}
+.quiz .q p{margin:0 0 6px;font-weight:700}
+.quiz .o{display:block;width:100%;text-align:left;font:inherit;font-size:17px;padding:7px 12px;margin:5px 0;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}
+.quiz .o:hover{border-color:var(--ac2)}.quiz .o.ok{border-color:var(--ok);background:var(--ok);color:#fff}.quiz .o.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.quiz .ex{display:none;margin-top:6px;font-size:16px;color:var(--mut)}.quiz .q.done .ex{display:block}
+.quiz .score{font-weight:800;font-size:19px;margin-top:8px}
+.quiz .rt{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer;margin-left:10px}
+.vadd{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.vadd div{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--ok);border-radius:12px;padding:10px 14px;font-size:17px}.vadd div:nth-child(2){border-top-color:var(--ac)}.vadd div:nth-child(3){border-top-color:var(--ac2)}
+.vadd b{display:block;margin-bottom:2px}
+.pair{border:2px dashed var(--ac2);border-radius:12px;padding:10px 16px;margin:12px 0;background:var(--card)}
+.fc:nth-child(5) .fr{background:linear-gradient(135deg,#b45f06,#e8a317)}.fc:nth-child(6) .fr{background:linear-gradient(135deg,#0e7490,#22b8cf)}.fc:nth-child(5) .bk{border-color:#e8a317}.fc:nth-child(6) .bk{border-color:#22b8cf}
+</style></head><body><div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 3 home</a><a href="block1.html">1 Triage</a><a href="block2.html">2 Alerts</a><a href="block3.html" class="on">3 Pipeline AI</a><a href="block4.html">4 Discuss</a><a href="viewer.html">Viewer</a></div></div>
+<main>
+<div class="hero"><h1>Lab 3: Rescue a failed pipeline with Harness AI</h1>
+<p>A pipeline fails. First you fix it by hand. Then you let AI diagnose it, and you check the AI.</p>
+<div class="chips"><span>Pairs</span><span>About 50 min</span><span>Browser only</span><span>No card needed</span></div></div>
+<div class="flipbar"><h2>What is Harness?</h2><button id="flipall">Flip all</button></div>
+<div class="flips">
+<div class="fc" tabindex="0" role="button" aria-label="What it is"><div class="in"><div class="fr"><div class="ic">🚀</div><b>What it is</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">What it is</b><br>A software delivery platform. It builds, tests, deploys and secures code from one place. Pipelines are written as YAML.</div></div></div></div>
+<div class="fc" tabindex="0" role="button" aria-label="The problem it solves"><div class="in"><div class="fr"><div class="ic">🧩</div><b>The problem it solves</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">The problem it solves</b><br>Pipelines glued together from many scripts break often, differ team to team and are slow to debug. Harness gives one repeatable path from code to production.</div></div></div></div>
+<div class="fc" tabindex="0" role="button" aria-label="How enterprises use it"><div class="in"><div class="fr"><div class="ic">🏢</div><b>How enterprises use it</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">How enterprises use it</b><br>Platform teams publish standard pipeline templates. App teams reuse them, with approvals, policy checks and audit trails, to deploy to cloud and Kubernetes.</div></div></div></div>
+<div class="fc" tabindex="0" role="button" aria-label="What AI adds"><div class="in"><div class="fr"><div class="ic">🤖</div><b>What AI adds</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">What AI adds</b><br>Reads a failed run and its logs, explains the cause in plain words, proposes a fix and can apply it and re-run. <b>You</b> still review it.</div></div></div></div>
+</div>
+<div class="sim" id="sim"><h3>Imagine 100 microservices</h3><div class="sub">Every square is one service. Press the button and watch both sides release a new version.</div>
+<div class="cols">
+<div class="col"><h4>😵 Today: every team has its own scripts</h4><div class="grid chaos" id="g1"></div><div class="sm" style="margin-top:6px">Slightly different steps, different checks, different results.</div></div>
+<div class="col"><h4>✅ With Harness: one reusable pipeline</h4><div class="grid" id="g2"></div>
+<div class="pipe" id="pp"><span>Deploy to 5%</span><span>Health check</span><span>Approval</span><span>Roll out 100%</span></div><div class="msg" id="sm"></div></div>
+</div>
+<div class="ctl"><button id="go">▶ Release v2</button><label><input type="checkbox" id="bad"> Make the new version unhealthy</label></div>
+<div class="vchips"><span>Less repetitive work</span><span>Consistent controls</span><span>Safer releases at scale</span></div></div>
+<div class="val"><b>The idea of this lab:</b> a developer reads logs for each failure, searches, tries a fix and waits for the next run. Harness AI does the reading in seconds. The skill that matters is checking that it is right.</div>
+<div class="stuck"><b class="h">🛟 Stuck or got an error? Do this first</b><div class="rules"><span>1. Ask the Harness AI chat (left panel)</span><span>2. Ask your neighbour</span><span>3. Then call the trainer</span></div><pre>I got this error or I am stuck. Step I was on: ... What I see: ... (paste the error text). Explain it in simple words and tell me the exact fix.</pre><div class="sm">The AI can read your error faster than anyone. Learning to ask it well is part of the lab.</div></div>
+<div class="band s">Setup <small>10 min, once per person</small></div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">🌐 BROWSER</span>Open <b>app.harness.io</b> and sign up for a free account. No card should be needed. If it asks for one, stop and tell the trainer.</div></div>
+
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">🌐 BROWSER</span>If you see "Let's get you set up", click the back arrow. In the left menu open <b>Pipelines</b>, then <b>Create pipeline</b>.</div></div>
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">🌐 BROWSER</span>Name it <code>orders-app-lab</code>. Leave Storage as <b>Inline</b>. Click <b>Create</b>.</div></div>
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">🌐 BROWSER</span>You are now in <b>Studio</b>. Click the <b>YAML</b> toggle at the top of the editor. You will paste code here in the next part.</div></div>
+
+<div class="band a">Part A: fix it yourself <small>15 min</small></div>
+<p>The pipeline builds a tiny Python order app in two steps: <b>test</b>, then <b>package</b>.</p>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">🌐 BROWSER</span>Click inside the YAML editor, press <b>Ctrl+A</b>, then <b>Delete</b>. Copy this code and paste it with <b>Ctrl+V</b>.<pre class="y">pipeline:
+  stages:
+    - name: build
+      runtime: cloud
+      platform:
+        os: linux
+        arch: amd64
+      steps:
+        - name: test
+          run:
+            container:
+              image: python:3.12-slim
+            script: |
+              pip install -q pytest
+              mkdir -p app tests build
+              touch app/__init__.py tests/__init__.py
+              cat &gt; app/orders.py &lt;&lt;&#x27;EOF&#x27;
+              TAX_RATE = 0.18
+
+              def line_total(price, qty):
+                  if qty &lt;= 0:
+                      raise ValueError(&quot;qty must be positive&quot;)
+                  return round(price * qty, 2)
+
+              def order_total(items):
+                  subtotal = sum(line_total(p, q) for p, q in items)
+                  return round(subtotal * (1 + TAX_RATE), 2)
+              EOF
+              cat &gt; tests/test_orders.py &lt;&lt;&#x27;EOF&#x27;
+              from app.orders import line_total, order_total
+
+              def test_line_total():
+                  assert line_total(10.0, 3) == 30.0
+
+              def test_order_total_with_tax():
+                  assert order_total([(100.0, 1), (50.0, 2)]) == 236.0
+              EOF
+              python -m pytest -q
+              python -m zipfile -c build/orders-app.zip app
+        - name: package
+          run:
+            container:
+              image: python:3.12-slim
+            script: |
+              test -f dist/orders-app.zip || { echo &quot;ERROR: dist/orders-app.zip not found&quot;; ls -la; exit 1; }
+              sha256sum dist/orders-app.zip &gt; dist/SHA256SUMS
+              cat dist/SHA256SUMS
+</pre></div></div>
+
+<div class="step fail"><div class="n">2</div><div class="c"><span class="tag">🌐 BROWSER</span>Click <b>Save</b> (the error count at the bottom should be 0). Click <b>Run</b>, then <b>Run pipeline</b>. Wait 1 to 2 minutes.<div class="exp bad">Expected: <b>test</b> green, <b>package</b> red.</div></div></div>
+
+<div class="vs" data-id="l3"><b>⏱️ Stopwatch: manual vs AI</b><div class="row"><b>Part A: find the cause and fix it yourself</b><span class="t" data-t="m">00:00</span><button data-s="m">Start</button><button data-p="m">Stop</button><button data-r="m">Reset</button></div><div class="row"><b>Part B: AI finds and fixes the first failure</b><span class="t" data-t="a">00:00</span><button data-s="a">Start</button><button data-p="a">Stop</button><button data-r="a">Reset</button></div><div class="res"></div></div>
+<div class="think"><b>Start the Part A stopwatch now.</b> Open the failed <b>package</b> step and its <b>Logs</b>. Find the error line. Then read the YAML: which folder does <b>test</b> write to, and which folder does <b>package</b> read from? Stop the stopwatch when you know.</div>
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">🌐 BROWSER</span>Fix it. In the <b>test</b> step, change <b>both</b> places where it says <code>build</code> to <code>dist</code>:<pre>mkdir -p app tests dist
+python -m zipfile -c dist/orders-app.zip app</pre></div></div>
+
+<div class="step good"><div class="n">4</div><div class="c"><span class="tag">🌐 BROWSER</span><b>Save</b>, <b>Run</b>, <b>Run pipeline</b>.<div class="exp ok">Expected: both steps green. Open the <b>package</b> log and find the checksum line.</div></div></div>
+
+<div class="think"><b>What just happened?</b> <code>build</code> and <code>dist</code> are only folder names. One step wrote to one, the next looked in the other.</div>
+<div class="band b">Part B: let Harness AI help <small>25 min</small></div>
+<p>Same app, one more step added: a <b>smoke-test</b> that unzips the package and checks an order total. This version has <b>two</b> problems.</p>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">🌐 BROWSER</span>Go to <b>Studio</b> → <b>YAML</b>. Press <b>Ctrl+A</b>, <b>Delete</b>, then paste this longer code.<pre class="y">pipeline:
+  stages:
+    - name: build
+      runtime: cloud
+      platform:
+        os: linux
+        arch: amd64
+      steps:
+        - name: test
+          run:
+            container:
+              image: python:3.12-slim
+            script: |
+              pip install -q pytest
+              mkdir -p app tests build
+              touch app/__init__.py tests/__init__.py
+              cat &gt; app/orders.py &lt;&lt;&#x27;EOF&#x27;
+              TAX_RATE = 0.18
+
+              def line_total(price, qty):
+                  if qty &lt;= 0:
+                      raise ValueError(&quot;qty must be positive&quot;)
+                  return round(price * qty, 2)
+
+              def order_total(items):
+                  subtotal = sum(line_total(p, q) for p, q in items)
+                  return round(subtotal * (1 + TAX_RATE), 2)
+              EOF
+              cat &gt; tests/test_orders.py &lt;&lt;&#x27;EOF&#x27;
+              from app.orders import line_total, order_total
+
+              def test_line_total():
+                  assert line_total(10.0, 3) == 30.0
+
+              def test_order_total_with_tax():
+                  assert order_total([(100.0, 1), (50.0, 2)]) == 236.0
+              EOF
+              python -m pytest -q
+              python -m zipfile -c build/orders-app.zip app
+        - name: package
+          run:
+            container:
+              image: python:3.12-slim
+            script: |
+              test -f dist/orders-app.zip || { echo &quot;ERROR: dist/orders-app.zip not found&quot;; ls -la; exit 1; }
+              sha256sum dist/orders-app.zip &gt; dist/SHA256SUMS
+              cat dist/SHA256SUMS
+        - name: smoke-test
+          run:
+            container:
+              image: python:3.12-slim
+            script: |
+              mkdir /tmp/check
+              python -m zipfile -e dist/orders-app.zip /tmp/check
+              cd /tmp/check
+              python -c &quot;
+              from app.orders import order_total
+              total = order_total([(100.0, 1)])
+              print(&#x27;order total:&#x27;, total)
+              assert total == 120.0, f&#x27;expected 120.0 but got {total}&#x27;
+              &quot;
+</pre></div></div>
+
+<div class="step fail"><div class="n">2</div><div class="c"><span class="tag">🌐 BROWSER</span><b>Save</b>, <b>Run</b>, <b>Run pipeline</b>.<div class="exp bad">Expected: <b>test</b> green, <b>package</b> red, <b>smoke-test</b> skipped. The same first problem as Part A.</div></div></div>
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">🌐 BROWSER</span><b>Start the Part B stopwatch.</b> On the run page, in the AI chat on the left, click <b>Analyze pipeline errors</b>. Read the answer.</div></div>
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">🌐 BROWSER</span><b>Check the AI.</b> Open the failed <b>package</b> log. Find the line the AI quoted. Does it match? Stop the stopwatch.</div></div>
+
+<div class="step fail"><div class="n">5</div><div class="c"><span class="tag">🌐 BROWSER</span>Tell the AI: <code>Yes, apply the fix and re-run.</code> Wait for the new run.<div class="exp bad">Expected: <b>package</b> now green, but <b>smoke-test</b> red with <b>expected 120.0 but got 118.0</b>.</div></div></div>
+
+<div class="step "><div class="n">6</div><div class="c"><span class="tag">🌐 BROWSER</span>Click <b>Analyze pipeline errors</b> again. The AI reads the new failure.</div></div>
+
+<div class="think"><b>You decide:</b> the check expects 120.0 but the app returns 118.0. Is the app wrong or the check wrong? The unit test in the <b>test</b> step shows which tax rate the team agreed on. If the AI offers two options, pick the one that matches that test.</div>
+<div class="step good"><div class="n">7</div><div class="c"><span class="tag">🌐 BROWSER</span>Tell the AI to apply that fix and re-run.<div class="exp ok">Expected: all three steps green. Open the <b>package</b> log and find the checksum line.</div></div></div>
+
+<h2>Why this matters at your job</h2><div class="vadd"><div><b>Same path every time</b>A shared pipeline means teams stop inventing their own deployment steps.</div><div><b>Faster failure fixes</b>AI reads a failed run and explains it in seconds. You verify and fix.</div><div><b>Safer releases</b>Health checks and automatic rollback limit the damage of a bad version.</div></div><div class="pair"><b>💬 Talk to your neighbour (1 min)</b><br>How does your team find out why a build or deployment failed today? How long does it take?</div><div class="quiz"><b>🧩 Quick quiz: Lab 3 (5 questions)</b><div class="q"><p>Part A failed because:</p><button class="o">The tests failed</button><button class="o" data-c="1">One step wrote the zip to build/ and the next step looked in dist/</button><button class="o">Harness was down</button><button class="o">The YAML was invalid</button><div class="ex">The two steps used different folder names. The log said: file not found.</div></div><div class="q"><p>The smoke-test expects 120.0 but the app returns 118.0. How do you decide which is wrong?</p><button class="o">Change the app</button><button class="o" data-c="1">Compare with the unit test and the agreed tax rate</button><button class="o">Ask the AI to choose, then agree</button><button class="o">Delete the test</button><div class="ex">The unit test uses 18%, so the check is wrong. <b>You decide; the evidence settles it.</b></div></div><div class="q"><p>Harness AI asks: "Do you want me to apply the fix?" You should first:</p><button class="o">Say yes immediately</button><button class="o" data-c="1">Read the diagnosis and check the log line it quoted</button><button class="o">Close the chat</button><button class="o">Re-run the pipeline</button><div class="ex">Verify the diagnosis against the real log before you let it change anything.</div></div><div class="q"><p>What problem does a platform like Harness solve for large companies?</p><button class="o">It writes all the code</button><button class="o" data-c="1">One repeatable, governed path from code to production</button><button class="o">It replaces all developers</button><button class="o">It makes servers faster</button><div class="ex">Reusable pipelines, approvals and checks give consistency at scale.</div></div><div class="q"><p>In the 100-service animation the new version is unhealthy. What happens?</p><button class="o">All 100 services break</button><button class="o" data-c="1">The health check fails, it rolls back, and only the first few services were touched</button><button class="o">Nothing</button><button class="o">An engineer fixes it by hand at once</button><div class="ex">A small first release plus a health check limits the blast radius.</div></div><div class="score"></div><button class="rt">Try again</button></div><h2>Check yourself</h2><div class="chk"><label><input type="checkbox" data-k="0"> In Part A I found the failing line in the log myself</label><label><input type="checkbox" data-k="1"> I can explain the build / dist mismatch in one sentence</label><label><input type="checkbox" data-k="2"> In Part B I checked the AI's answer against the log before saying yes</label><label><input type="checkbox" data-k="3"> For the second failure I decided whether the app or the check was wrong</label><label><input type="checkbox" data-k="4"> All three steps are green and I found the checksum line</label></div>
+<div class="takeaway"><b>⭐ Takeaway</b><p>AI reads the logs and names the cause in seconds, and it can apply the fix. It cannot know which side is <i>right</i> when the code and a check disagree. <b>You</b> are the reviewer.</p></div>
+</main>
+<script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d3-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+
+document.querySelectorAll('.vs').forEach(v=>{const id='vs-'+location.pathname+v.dataset.id;const T={m:0,a:0};try{const o=JSON.parse(localStorage.getItem(id)||'{}');T.m=o.m||0;T.a=o.a||0}catch(e){}
+const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function upd(){v.querySelector('[data-t=m]').textContent=f(T.m);v.querySelector('[data-t=a]').textContent=f(T.a);const r=v.querySelector('.res');if(T.m>0&&T.a>0){const x=T.m/T.a;r.textContent='Manual '+f(T.m)+' vs AI '+f(T.a)+(x>=1.2?' = AI was about '+x.toFixed(1)+'x faster. Now: was it right?':' = about the same. Why?')}else r.textContent='';try{localStorage.setItem(id,JSON.stringify(T))}catch(e){}}
+['m','a'].forEach(k=>{let h=null,t0=0,b=0;const st=v.querySelector('[data-s='+k+']'),sp=v.querySelector('[data-p='+k+']'),rs=v.querySelector('[data-r='+k+']');
+st.onclick=()=>{if(h)return;t0=Date.now();b=T[k];h=setInterval(()=>{T[k]=b+(Date.now()-t0)/1000;upd()},250)};
+sp.onclick=()=>{clearInterval(h);h=null;upd()};rs.onclick=()=>{clearInterval(h);h=null;T[k]=0;upd()}});upd()});
+
+document.querySelectorAll('.fc').forEach(c=>{const t=()=>c.classList.toggle('f');c.onclick=t;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+const fa=document.getElementById('flipall');if(fa){let on=false;fa.onclick=()=>{on=!on;document.querySelectorAll('.fc').forEach(c=>c.classList.toggle('f',on));fa.textContent=on?'Flip back':'Flip all'}}
+(function(){const g1=document.getElementById('g1'),g2=document.getElementById('g2');if(!g1)return;
+for(let i=0;i<100;i++){const a=document.createElement('i');a.style.animationDelay=(i%7)*0.2+'s';g1.appendChild(a);g2.appendChild(document.createElement('i'))}
+const cells=[...g2.children],steps=[...document.getElementById('pp').children],msg=document.getElementById('sm'),go=document.getElementById('go');let busy=false;
+const w=ms=>new Promise(r=>setTimeout(r,ms));
+function reset(){cells.forEach(c=>c.className='');steps.forEach(s=>s.className='');msg.textContent='';msg.style.color=''}
+go.onclick=async()=>{if(busy)return;busy=true;reset();const bad=document.getElementById('bad').checked;
+steps[0].className='on';msg.textContent='Deploying v2 to 5 services...';for(let i=0;i<5;i++){cells[i].className='nw';await w(250)}
+steps[0].className='ok';steps[1].className='on';msg.textContent='Checking health of the 5 services...';await w(1500);
+if(bad){steps[1].className='no';cells.slice(0,5).forEach(c=>c.className='bd');msg.style.color='var(--bad)';msg.textContent='Health check failed. Rolled back automatically. 95 services never saw the bug.';await w(1200);cells.slice(0,5).forEach(c=>c.className='');busy=false;return}
+steps[1].className='ok';steps[2].className='on';msg.textContent='Waiting for approval...';await w(1500);steps[2].className='ok';
+steps[3].className='on';msg.textContent='Rolling out to all 100 services...';for(let i=5;i<100;i++){cells[i].className='nw';await w(30)}
+steps[3].className='ok';msg.style.color='var(--ok)';msg.textContent='Done. Same steps, same checks, every time.';busy=false}})();
+(function(){document.querySelectorAll('.quiz').forEach(z=>{const qs=[...z.querySelectorAll('.q')];const sc=z.querySelector('.score');let right=0,done=0;
+const upd=()=>{sc.textContent='Score: '+right+' / '+qs.length+(done==qs.length?(right==qs.length?'  Perfect!':right>=qs.length-1?'  Great work.':'  Flip back through the cards above and try again.'):'')};
+qs.forEach(q=>{const os=[...q.querySelectorAll('.o')];const ex=q.querySelector('.ex');for(let i=os.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[os[i],os[j]]=[os[j],os[i]]}os.forEach(o=>q.insertBefore(o,ex));q.querySelectorAll('.o').forEach(o=>o.onclick=()=>{if(q.classList.contains('done'))return;q.classList.add('done');done++;if(o.dataset.c){o.classList.add('ok');right++}else{o.classList.add('no');const g=q.querySelector('[data-c]');g.classList.add('ok')}upd()})});
+const rt=z.querySelector('.rt');if(rt)rt.onclick=()=>{right=0;done=0;qs.forEach(q=>{q.classList.remove('done');q.querySelectorAll('.o').forEach(o=>o.classList.remove('ok','no'))});upd()};upd()})})();</script></body></html>

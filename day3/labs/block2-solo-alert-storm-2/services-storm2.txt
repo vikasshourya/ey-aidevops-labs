@@ -1,0 +1,9 @@
+FreightFlow EU service dependencies (A -> B means A calls B)
+
+web-portal        -> api-gateway
+api-gateway       -> orders-service, inventory-service
+orders-service    -> postgres-orders (primary database, 200 GB volume)
+inventory-service -> redis-cache (hot stock data)
+batch-reports     -> reporting-db (standalone, no other service depends on it)
+mail-relay        (standalone, no other service depends on it)
+log-server        (standalone, no other service depends on it)

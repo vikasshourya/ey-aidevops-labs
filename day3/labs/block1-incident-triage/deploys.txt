@@ -1,0 +1,4 @@
+2026-10-21 09:15  ui-bff           v1.9.2   ok
+2026-10-21 10:05  worker           v3.0.4   ok
+2026-10-21 10:40  tracking-api     v2.4.1   deployed (change: retry DB query on timeout, max 5 retries)
+2026-10-21 10:55  tracking-api     v2.4.0   rollback

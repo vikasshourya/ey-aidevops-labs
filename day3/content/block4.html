@@ -1,0 +1,153 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Discussion: where would you use this?</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ac2:#7a3cf0;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ac2:#b08cff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615;--bad:#ff7b6b}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:32px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.hero{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;border-radius:16px;padding:22px 24px;margin:14px 0}
+.hero h1{margin:0 0 6px;color:#fff}.hero p{margin:4px 0;font-size:19px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:15px}
+.what{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px;margin:14px 0}
+.what div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;border-top:4px solid var(--ac)}
+.what div:nth-child(2){border-top-color:var(--bad)}.what div:nth-child(3){border-top-color:var(--ac2)}.what div:nth-child(4){border-top-color:var(--ok)}
+.what b.h{display:block;font-size:19px;margin-bottom:2px}
+.band{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 16px;margin:34px 0 10px;color:#fff;font-size:22px;font-weight:700}
+.band small{font-weight:400;font-size:16px;opacity:.9;margin-left:auto}
+.band.s{background:#566}.band.a{background:linear-gradient(120deg,#c26a00,#e08a00)}.band.b{background:linear-gradient(120deg,var(--ac2),var(--ac))}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:12px 0;display:flex;gap:14px}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step .c{flex:1;min-width:0}
+.step.fail .n{background:var(--bad)}.step.good .n{background:var(--ok)}
+.tag{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:1px 8px;background:var(--ac);color:#fff;margin-right:6px}
+.exp{font-size:16px;margin-top:4px;color:var(--mut)}
+.exp.bad{color:var(--bad);font-weight:700}.exp.ok{color:var(--ok);font-weight:700}
+pre.y{max-height:240px}pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac2);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 10px 10px 0}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:12px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+.vs{border:2px solid var(--ac);border-radius:12px;padding:10px 16px;margin:14px 0;background:var(--card)}.vs .row{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.vs .row b{min-width:150px}.vs button{font:inherit;font-size:15px;padding:2px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}.vs .t{font-variant-numeric:tabular-nums;font-size:22px;min-width:70px}.vs .res{font-weight:700;color:var(--ok);margin-top:6px}
+
+.flipbar{display:flex;justify-content:space-between;align-items:center}.flipbar button{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer}
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.fc{perspective:900px;height:var(--fh,290px);cursor:pointer;outline:none}.fc:focus-visible .in{box-shadow:0 0 0 3px var(--ac)}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.f .in{transform:rotateY(180deg)}
+.fc .fr,.fc .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.fc .fr{color:#fff;align-items:center;text-align:center}.fc .fr .ic{font-size:40px;line-height:1}.fc .fr b{font-size:21px;margin-top:6px}.fc .fr small{opacity:.85;margin-top:6px;font-size:14px}
+.fc .bk b.bt{font-size:18px;color:var(--ac)}.fc .bk{transform:rotateY(180deg);background:var(--card);border:2px solid var(--ac);font-size:16.5px;overflow:auto}
+.fc:nth-child(1) .fr{background:linear-gradient(135deg,#0a5cc4,#3a86ff)}.fc:nth-child(2) .fr{background:linear-gradient(135deg,#c0392b,#ef6c4d)}.fc:nth-child(3) .fr{background:linear-gradient(135deg,#7a3cf0,#a77bff)}.fc:nth-child(4) .fr{background:linear-gradient(135deg,#0b7a3b,#35b36b)}
+.fc:nth-child(2) .bk{border-color:var(--bad)}.fc:nth-child(3) .bk{border-color:var(--ac2)}.fc:nth-child(4) .bk{border-color:var(--ok)}
+.sim{border:2px solid var(--ac2);border-radius:16px;padding:14px 18px;margin:16px 0;background:var(--card)}
+.sim h3{margin:0 0 4px;font-size:21px}.sim .sub{color:var(--mut);font-size:16px;margin-bottom:10px}
+.sim .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sim .col{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.sim .col h4{margin:0 0 8px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;background:var(--bd);display:block;transition:background .4s,transform .4s}
+.grid i.nw{background:var(--ok);transform:scale(1.1)}.grid i.bd{background:var(--bad)}
+.chaos i{animation:flick 1.4s infinite}
+@keyframes flick{0%{background:#e0a800}25%{background:#c0392b}50%{background:#7a3cf0}75%{background:#0a5cc4}100%{background:#e0a800}}
+.pipe{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}.pipe span{flex:1;min-width:78px;text-align:center;font-size:14px;padding:6px 4px;border-radius:8px;background:var(--card);border:2px solid var(--bd);transition:.3s}
+.pipe span.on{border-color:var(--ac);background:var(--ac);color:#fff;transform:translateY(-2px)}
+.pipe span.ok{border-color:var(--ok);background:var(--ok);color:#fff}.pipe span.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.sim .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.sim .ctl button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.sim .ctl label{font-size:16px;cursor:pointer}
+.sim .msg{min-height:26px;font-weight:700;margin-top:6px}
+.vchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.vchips span{background:var(--ok);color:#fff;border-radius:999px;padding:4px 14px;font-size:16px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.chaos i{animation:none}.fc .in{transition:none}}
+.val{border-left:5px solid var(--ok);padding:6px 14px;margin:10px 0;background:var(--card);font-size:17px;border-radius:0 10px 10px 0}.val b{color:var(--ok)}
+
+.idea{border:2px solid var(--ac);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.idea label{display:block;font-weight:700;margin:10px 0 3px}.idea label small{font-weight:400;color:var(--mut)}
+.idea textarea,.idea input{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:8px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+.idea textarea{min-height:64px;resize:vertical}
+.timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0}.timer .big{font-size:34px;font-variant-numeric:tabular-nums;font-weight:800;min-width:110px}.timer button,.idea button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.timer button.g{background:var(--card);color:var(--fg);border:1px solid var(--bd)}
+.warn{border-left:5px solid var(--bad);background:var(--card);padding:8px 14px;margin:12px 0;border-radius:0 10px 10px 0}
+.warn b{color:var(--bad)}
+
+.stuck{border:2px dashed var(--ac);border-radius:12px;padding:10px 16px;margin:16px 0;background:var(--card)}
+.stuck b.h{color:var(--ac)}
+.rules{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.rules span{background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:3px 12px;font-size:15px}
+.mission{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.mission .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px}
+.mission .g div{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:16.5px}
+.mission .g b{display:block;color:var(--ac2);font-size:15px;text-transform:uppercase;letter-spacing:.4px}
+details.key{border:1px solid var(--bd);border-radius:12px;padding:8px 16px;margin:12px 0;background:var(--card)}details.key summary{cursor:pointer;font-weight:700;color:var(--ac)}
+.chain{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.chain .r{display:grid;grid-template-columns:70px 1fr 40px;gap:10px;align-items:center;opacity:.25;transition:opacity .4s}.chain .r.on{opacity:1}
+.chain .r .tm{font-variant-numeric:tabular-nums;color:var(--mut);font-size:15px}
+.chain .r .lbl{font-size:16px}.chain .r .bar{height:12px;border-radius:6px;background:var(--bd);margin-top:3px;overflow:hidden}.chain .r .bar i{display:block;height:100%;width:0;background:var(--ac);transition:width 1s}
+.chain .r.cause .bar i{background:var(--ok)}.chain .r.loud .bar i{background:var(--bad)}
+.chain .r .n{font-weight:700;text-align:right}
+.tagc{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:0 6px;margin-left:6px;color:#fff}.tagc.c{background:var(--ok)}.tagc.l{background:var(--bad)}
+.boxes{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-top:10px}
+.box{border:2px solid var(--bd);border-radius:12px;padding:8px 10px;min-height:110px;background:var(--bg)}.box h4{margin:0 0 6px;font-size:16px}
+.box.inc{border-color:var(--bad)}.box.noi{border-color:var(--mut)}
+.dots{display:flex;flex-wrap:wrap;gap:4px}.dots i{width:16px;height:16px;border-radius:50%;display:block;transition:transform .35s,opacity .35s}
+.dots i.pop{animation:pop .4s}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.dots i.gone{transform:scale(0);opacity:0}
+.cnt{font-size:15px;color:var(--mut);margin-top:6px}
+.strip{border:2px dashed var(--bd);border-radius:12px;padding:8px 10px;background:var(--bg)}
+
+.quiz{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:16px 0;background:var(--card)}
+.quiz .q{margin:14px 0;padding-bottom:10px;border-bottom:1px solid var(--bd)}.quiz .q:last-of-type{border-bottom:0}
+.quiz .q p{margin:0 0 6px;font-weight:700}
+.quiz .o{display:block;width:100%;text-align:left;font:inherit;font-size:17px;padding:7px 12px;margin:5px 0;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}
+.quiz .o:hover{border-color:var(--ac2)}.quiz .o.ok{border-color:var(--ok);background:var(--ok);color:#fff}.quiz .o.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.quiz .ex{display:none;margin-top:6px;font-size:16px;color:var(--mut)}.quiz .q.done .ex{display:block}
+.quiz .score{font-weight:800;font-size:19px;margin-top:8px}
+.quiz .rt{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer;margin-left:10px}
+.vadd{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.vadd div{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--ok);border-radius:12px;padding:10px 14px;font-size:17px}.vadd div:nth-child(2){border-top-color:var(--ac)}.vadd div:nth-child(3){border-top-color:var(--ac2)}
+.vadd b{display:block;margin-bottom:2px}
+.pair{border:2px dashed var(--ac2);border-radius:12px;padding:10px 16px;margin:12px 0;background:var(--card)}
+.fc:nth-child(5) .fr{background:linear-gradient(135deg,#b45f06,#e8a317)}.fc:nth-child(6) .fr{background:linear-gradient(135deg,#0e7490,#22b8cf)}.fc:nth-child(5) .bk{border-color:#e8a317}.fc:nth-child(6) .bk{border-color:#22b8cf}
+</style></head><body><div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 3 home</a><a href="block1.html">1 Triage</a><a href="block2.html">2 Alerts</a><a href="block3.html">3 Pipeline AI</a><a href="block4.html" class="on">4 Discuss</a><a href="viewer.html">Viewer</a></div></div>
+<main><div class="hero"><h1>Discussion: where would you use this?</h1><p>You saw AI read logs, group alerts and explain a failed pipeline. Now think about <b>your own work</b>.</p><div class="chips"><span>Small groups of 3 or 4</span><span>10 to 15 min</span><span>No tools needed</span><span>Basic is fine</span></div></div>
+<div class="flipbar"><h2>What you did today (flip each card)</h2><button id="flipall">Flip all</button></div><div class="flips" style="--fh:250px"><div class="fc" tabindex="0" role="button" aria-label="Triage"><div class="in"><div class="fr"><div class="ic">🔎</div><b>Triage</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Triage</b><br>You gave AI logs, metrics and deploys. It built a timeline and named the cause. You checked the proof line.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Alert grouping"><div class="in"><div class="fr"><div class="ic">🔔</div><b>Alert grouping</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Alert grouping</b><br>48 alerts became 1 problem plus noise. The AI needed the dependency map. You checked that counts add up.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Failed pipeline"><div class="in"><div class="fr"><div class="ic">🛠️</div><b>Failed pipeline</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Failed pipeline</b><br>Harness AI read the failed run and explained why. It proposed a fix. You decided if it was right.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="The one rule"><div class="in"><div class="fr"><div class="ic">🧠</div><b>The one rule</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">The one rule</b><br><b>AI proposes. You check against the evidence.</b> The value is speed. The responsibility stays with you.</div></div></div></div></div>
+<div class="band s">Brainstorm<small>3 steps, about 12 min</small></div>
+<div class="timer"><span class="big" id="tm">15:00</span><button id="tstart">▶ Start 15 min</button><button class="g" id="treset">Reset</button></div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">🗣️ DISCUSS</span><b>Think, alone (3 min).</b> Write down 3 things in your normal week that are <b>repetitive, slow or stressful</b>. You do not need to know DevOps. Look at the starters below if you are stuck.</div></div>
+
+<div class="flipbar"><h2>Idea starters (flip each card)</h2><button id="flipall">Flip all</button></div><div class="flips" style="--fh:250px"><div class="fc" tabindex="0" role="button" aria-label="Handover notes"><div class="in"><div class="fr"><div class="ic">📋</div><b>Handover notes</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Handover notes</b><br>At the end of a shift, paste the day's tickets or chat and ask AI for a short handover note. You check it.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Explain a failure"><div class="in"><div class="fr"><div class="ic">📖</div><b>Explain a failure</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Explain a failure</b><br>A build or job failed? Paste the error and ask for a plain-English explanation and the likely fix. Ask: how sure are you?</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Noisy alerts"><div class="in"><div class="fr"><div class="ic">🔕</div><b>Noisy alerts</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Noisy alerts</b><br>Export last week's alerts. Ask AI to group them and show which ones are always noise. You decide what to mute.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Incident write-up"><div class="in"><div class="fr"><div class="ic">📝</div><b>Incident write-up</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Incident write-up</b><br>After an issue, give AI the timeline and ask for a first draft of the report. Mark anything it is unsure about as UNKNOWN.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Help new joiners"><div class="in"><div class="fr"><div class="ic">🎓</div><b>Help new joiners</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Help new joiners</b><br>Ask AI to explain a log, a script or a runbook step in simple words, for someone on day one.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Repeated questions"><div class="in"><div class="fr"><div class="ic">🔁</div><b>Repeated questions</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Repeated questions</b><br>The same question comes up every week? Write one good prompt, save it, share it with the team.</div></div></div></div></div>
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">🗣️ DISCUSS</span><b>Pick one idea in your group (3 min) and fill the idea card below.</b> Keep it small enough to try on Monday.</div></div>
+
+<div class="idea"><b>💡 Our idea card</b><label>The task <small>(what do you do today, and how long does it take?)</small></label><textarea data-f="task" placeholder="Example: every morning I read 200 lines of job logs to find what failed. About 30 min."></textarea><label>The evidence we give the AI <small>(what files, logs or text?)</small></label><textarea data-f="evid"></textarea><label>Our prompt <small>(what exactly do we ask?)</small></label><textarea data-f="prompt"></textarea><label>How we will check the answer <small>(what is the proof, who confirms it?)</small></label><textarea data-f="check"></textarea><label>Time saved <small>(your honest guess, per week)</small></label><input data-f="time" placeholder="Example: 2 hours"><div style="margin-top:10px"><button id="copyidea">Copy my idea card</button> <span class="sm" id="copied"></span></div></div>
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">🗣️ DISCUSS</span><b>Share (about 2 min per group).</b> One person reads the idea card aloud. Everyone else asks one question: <b>how would you check the answer?</b></div></div>
+
+<div class="warn"><b>Before you use AI at work</b><br>&bull; Do <b>not</b> paste passwords, keys, customer data or anything confidential into a public AI tool.<br>&bull; Check your company's AI policy and use the tools it approves.<br>&bull; AI can be confidently wrong. Always check against the real evidence.</div>
+<div class="think"><b>Good questions for your group:</b> What would make you trust the AI's answer? What is the worst that happens if it is wrong? Who should review it? What is the smallest version we can try first?</div>
+<div class="quiz"><b>🧩 Quick check (3 questions)</b><div class="q"><p>Which of these must you NOT paste into a public AI tool?</p><button class="o">A generic error message</button><button class="o" data-c="1">Passwords, keys or customer data</button><button class="o">A public documentation link</button><button class="o">A made-up example</button><div class="ex">Never paste secrets or confidential data. Use approved tools and follow your company policy.</div></div><div class="q"><p>A good first AI idea to try at work is:</p><button class="o">Automate everything at once</button><button class="o" data-c="1">One small task, one prompt, one check</button><button class="o">Replace the team's process</button><button class="o">Run it unattended</button><div class="ex">Start small so you can check the result easily.</div></div><div class="q"><p>The AI gives you an answer for your idea. What do you do?</p><button class="o">Use it as it is</button><button class="o" data-c="1">Check it against the real evidence, then decide</button><button class="o">Ask it to double-check itself only</button><button class="o">Send it to your manager</button><div class="ex">AI proposes. <b>You check and decide.</b></div></div><div class="score"></div><button class="rt">Try again</button></div><h2>Check yourself</h2><div class="chk"><label><input type="checkbox" data-k="0"> I named 3 repetitive tasks from my own week</label><label><input type="checkbox" data-k="1"> My group filled an idea card, including how we would check the answer</label><label><input type="checkbox" data-k="2"> I know what I must not paste into an AI tool</label><label><input type="checkbox" data-k="3"> I have one small thing I will try on Monday</label></div>
+<div class="takeaway"><b>⭐ Takeaway</b><p>Start small: <b>one task, one prompt, one check</b>. Use AI to read and draft fast. You stay the reviewer.</p></div></main>
+<script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d3-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+
+document.querySelectorAll('.vs').forEach(v=>{const id='vs-'+location.pathname+v.dataset.id;const T={m:0,a:0};try{const o=JSON.parse(localStorage.getItem(id)||'{}');T.m=o.m||0;T.a=o.a||0}catch(e){}
+const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function upd(){v.querySelector('[data-t=m]').textContent=f(T.m);v.querySelector('[data-t=a]').textContent=f(T.a);const r=v.querySelector('.res');if(T.m>0&&T.a>0){const x=T.m/T.a;r.textContent='Manual '+f(T.m)+' vs AI '+f(T.a)+(x>=1.2?' = AI was about '+x.toFixed(1)+'x faster. Now: was it right?':' = about the same. Why?')}else r.textContent='';try{localStorage.setItem(id,JSON.stringify(T))}catch(e){}}
+['m','a'].forEach(k=>{let h=null,t0=0,b=0;const st=v.querySelector('[data-s='+k+']'),sp=v.querySelector('[data-p='+k+']'),rs=v.querySelector('[data-r='+k+']');
+st.onclick=()=>{if(h)return;t0=Date.now();b=T[k];h=setInterval(()=>{T[k]=b+(Date.now()-t0)/1000;upd()},250)};
+sp.onclick=()=>{clearInterval(h);h=null;upd()};rs.onclick=()=>{clearInterval(h);h=null;T[k]=0;upd()}});upd()});
+
+document.querySelectorAll('.fc').forEach(c=>{const t=()=>c.classList.toggle('f');c.onclick=t;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+const fa=document.getElementById('flipall');if(fa){let on=false;fa.onclick=()=>{on=!on;document.querySelectorAll('.fc').forEach(c=>c.classList.toggle('f',on));fa.textContent=on?'Flip back':'Flip all'}}
+
+(function(){let left=900,h=null;const tm=document.getElementById('tm');if(!tm)return;const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+document.getElementById('tstart').onclick=()=>{if(h)return;h=setInterval(()=>{left--;tm.textContent=f(Math.max(left,0));if(left<=0){clearInterval(h);h=null;tm.textContent="Time!"}},1000)};
+document.getElementById('treset').onclick=()=>{clearInterval(h);h=null;left=900;tm.textContent=f(left)};
+const F=[...document.querySelectorAll('[data-f]')];F.forEach(e=>{const k='d3-idea-'+e.dataset.f;try{e.value=localStorage.getItem(k)||''}catch(x){}e.oninput=()=>{try{localStorage.setItem(k,e.value)}catch(x){}}});
+document.getElementById('copyidea').onclick=()=>{const L={task:'The task',evid:'Evidence for the AI',prompt:'Our prompt',check:'How we check the answer',time:'Time saved'};const t=F.map(e=>L[e.dataset.f]+': '+e.value).join('\n');navigator.clipboard.writeText(t).then(()=>{document.getElementById('copied').textContent='Copied. Paste it in the chat.'}).catch(()=>{document.getElementById('copied').textContent='Select the text and copy it by hand.'})}})();(function(){document.querySelectorAll('.quiz').forEach(z=>{const qs=[...z.querySelectorAll('.q')];const sc=z.querySelector('.score');let right=0,done=0;
+const upd=()=>{sc.textContent='Score: '+right+' / '+qs.length+(done==qs.length?(right==qs.length?'  Perfect!':right>=qs.length-1?'  Great work.':'  Flip back through the cards above and try again.'):'')};
+qs.forEach(q=>{const os=[...q.querySelectorAll('.o')];const ex=q.querySelector('.ex');for(let i=os.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[os[i],os[j]]=[os[j],os[i]]}os.forEach(o=>q.insertBefore(o,ex));q.querySelectorAll('.o').forEach(o=>o.onclick=()=>{if(q.classList.contains('done'))return;q.classList.add('done');done++;if(o.dataset.c){o.classList.add('ok');right++}else{o.classList.add('no');const g=q.querySelector('[data-c]');g.classList.add('ok')}upd()})});
+const rt=z.querySelector('.rt');if(rt)rt.onclick=()=>{right=0;done=0;qs.forEach(q=>{q.classList.remove('done');q.querySelectorAll('.o').forEach(o=>o.classList.remove('ok','no'))});upd()};upd()})})();</script></body></html>

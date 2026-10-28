@@ -1,0 +1,200 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lab 2: 48 alerts, how many problems?</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ac2:#7a3cf0;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ac2:#b08cff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615;--bad:#ff7b6b}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:32px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.hero{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;border-radius:16px;padding:22px 24px;margin:14px 0}
+.hero h1{margin:0 0 6px;color:#fff}.hero p{margin:4px 0;font-size:19px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:15px}
+.what{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px;margin:14px 0}
+.what div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;border-top:4px solid var(--ac)}
+.what div:nth-child(2){border-top-color:var(--bad)}.what div:nth-child(3){border-top-color:var(--ac2)}.what div:nth-child(4){border-top-color:var(--ok)}
+.what b.h{display:block;font-size:19px;margin-bottom:2px}
+.band{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 16px;margin:34px 0 10px;color:#fff;font-size:22px;font-weight:700}
+.band small{font-weight:400;font-size:16px;opacity:.9;margin-left:auto}
+.band.s{background:#566}.band.a{background:linear-gradient(120deg,#c26a00,#e08a00)}.band.b{background:linear-gradient(120deg,var(--ac2),var(--ac))}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:12px 0;display:flex;gap:14px}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step .c{flex:1;min-width:0}
+.step.fail .n{background:var(--bad)}.step.good .n{background:var(--ok)}
+.tag{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:1px 8px;background:var(--ac);color:#fff;margin-right:6px}
+.exp{font-size:16px;margin-top:4px;color:var(--mut)}
+.exp.bad{color:var(--bad);font-weight:700}.exp.ok{color:var(--ok);font-weight:700}
+pre.y{max-height:240px}pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac2);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 10px 10px 0}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:12px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+.vs{border:2px solid var(--ac);border-radius:12px;padding:10px 16px;margin:14px 0;background:var(--card)}.vs .row{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.vs .row b{min-width:150px}.vs button{font:inherit;font-size:15px;padding:2px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}.vs .t{font-variant-numeric:tabular-nums;font-size:22px;min-width:70px}.vs .res{font-weight:700;color:var(--ok);margin-top:6px}
+
+.flipbar{display:flex;justify-content:space-between;align-items:center}.flipbar button{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer}
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.fc{perspective:900px;height:var(--fh,290px);cursor:pointer;outline:none}.fc:focus-visible .in{box-shadow:0 0 0 3px var(--ac)}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.f .in{transform:rotateY(180deg)}
+.fc .fr,.fc .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.fc .fr{color:#fff;align-items:center;text-align:center}.fc .fr .ic{font-size:40px;line-height:1}.fc .fr b{font-size:21px;margin-top:6px}.fc .fr small{opacity:.85;margin-top:6px;font-size:14px}
+.fc .bk b.bt{font-size:18px;color:var(--ac)}.fc .bk{transform:rotateY(180deg);background:var(--card);border:2px solid var(--ac);font-size:16.5px;overflow:auto}
+.fc:nth-child(1) .fr{background:linear-gradient(135deg,#0a5cc4,#3a86ff)}.fc:nth-child(2) .fr{background:linear-gradient(135deg,#c0392b,#ef6c4d)}.fc:nth-child(3) .fr{background:linear-gradient(135deg,#7a3cf0,#a77bff)}.fc:nth-child(4) .fr{background:linear-gradient(135deg,#0b7a3b,#35b36b)}
+.fc:nth-child(2) .bk{border-color:var(--bad)}.fc:nth-child(3) .bk{border-color:var(--ac2)}.fc:nth-child(4) .bk{border-color:var(--ok)}
+.sim{border:2px solid var(--ac2);border-radius:16px;padding:14px 18px;margin:16px 0;background:var(--card)}
+.sim h3{margin:0 0 4px;font-size:21px}.sim .sub{color:var(--mut);font-size:16px;margin-bottom:10px}
+.sim .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sim .col{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.sim .col h4{margin:0 0 8px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;background:var(--bd);display:block;transition:background .4s,transform .4s}
+.grid i.nw{background:var(--ok);transform:scale(1.1)}.grid i.bd{background:var(--bad)}
+.chaos i{animation:flick 1.4s infinite}
+@keyframes flick{0%{background:#e0a800}25%{background:#c0392b}50%{background:#7a3cf0}75%{background:#0a5cc4}100%{background:#e0a800}}
+.pipe{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}.pipe span{flex:1;min-width:78px;text-align:center;font-size:14px;padding:6px 4px;border-radius:8px;background:var(--card);border:2px solid var(--bd);transition:.3s}
+.pipe span.on{border-color:var(--ac);background:var(--ac);color:#fff;transform:translateY(-2px)}
+.pipe span.ok{border-color:var(--ok);background:var(--ok);color:#fff}.pipe span.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.sim .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.sim .ctl button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.sim .ctl label{font-size:16px;cursor:pointer}
+.sim .msg{min-height:26px;font-weight:700;margin-top:6px}
+.vchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.vchips span{background:var(--ok);color:#fff;border-radius:999px;padding:4px 14px;font-size:16px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.chaos i{animation:none}.fc .in{transition:none}}
+.val{border-left:5px solid var(--ok);padding:6px 14px;margin:10px 0;background:var(--card);font-size:17px;border-radius:0 10px 10px 0}.val b{color:var(--ok)}
+
+.idea{border:2px solid var(--ac);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.idea label{display:block;font-weight:700;margin:10px 0 3px}.idea label small{font-weight:400;color:var(--mut)}
+.idea textarea,.idea input{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:8px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+.idea textarea{min-height:64px;resize:vertical}
+.timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0}.timer .big{font-size:34px;font-variant-numeric:tabular-nums;font-weight:800;min-width:110px}.timer button,.idea button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.timer button.g{background:var(--card);color:var(--fg);border:1px solid var(--bd)}
+.warn{border-left:5px solid var(--bad);background:var(--card);padding:8px 14px;margin:12px 0;border-radius:0 10px 10px 0}
+.warn b{color:var(--bad)}
+
+.stuck{border:2px dashed var(--ac);border-radius:12px;padding:10px 16px;margin:16px 0;background:var(--card)}
+.stuck b.h{color:var(--ac)}
+.rules{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.rules span{background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:3px 12px;font-size:15px}
+.mission{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.mission .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px}
+.mission .g div{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:16.5px}
+.mission .g b{display:block;color:var(--ac2);font-size:15px;text-transform:uppercase;letter-spacing:.4px}
+details.key{border:1px solid var(--bd);border-radius:12px;padding:8px 16px;margin:12px 0;background:var(--card)}details.key summary{cursor:pointer;font-weight:700;color:var(--ac)}
+.chain{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.chain .r{display:grid;grid-template-columns:70px 1fr 40px;gap:10px;align-items:center;opacity:.25;transition:opacity .4s}.chain .r.on{opacity:1}
+.chain .r .tm{font-variant-numeric:tabular-nums;color:var(--mut);font-size:15px}
+.chain .r .lbl{font-size:16px}.chain .r .bar{height:12px;border-radius:6px;background:var(--bd);margin-top:3px;overflow:hidden}.chain .r .bar i{display:block;height:100%;width:0;background:var(--ac);transition:width 1s}
+.chain .r.cause .bar i{background:var(--ok)}.chain .r.loud .bar i{background:var(--bad)}
+.chain .r .n{font-weight:700;text-align:right}
+.tagc{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:0 6px;margin-left:6px;color:#fff}.tagc.c{background:var(--ok)}.tagc.l{background:var(--bad)}
+.boxes{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-top:10px}
+.box{border:2px solid var(--bd);border-radius:12px;padding:8px 10px;min-height:110px;background:var(--bg)}.box h4{margin:0 0 6px;font-size:16px}
+.box.inc{border-color:var(--bad)}.box.noi{border-color:var(--mut)}
+.dots{display:flex;flex-wrap:wrap;gap:4px}.dots i{width:16px;height:16px;border-radius:50%;display:block;transition:transform .35s,opacity .35s}
+.dots i.pop{animation:pop .4s}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.dots i.gone{transform:scale(0);opacity:0}
+.cnt{font-size:15px;color:var(--mut);margin-top:6px}
+.strip{border:2px dashed var(--bd);border-radius:12px;padding:8px 10px;background:var(--bg)}
+
+.quiz{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:16px 0;background:var(--card)}
+.quiz .q{margin:14px 0;padding-bottom:10px;border-bottom:1px solid var(--bd)}.quiz .q:last-of-type{border-bottom:0}
+.quiz .q p{margin:0 0 6px;font-weight:700}
+.quiz .o{display:block;width:100%;text-align:left;font:inherit;font-size:17px;padding:7px 12px;margin:5px 0;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}
+.quiz .o:hover{border-color:var(--ac2)}.quiz .o.ok{border-color:var(--ok);background:var(--ok);color:#fff}.quiz .o.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.quiz .ex{display:none;margin-top:6px;font-size:16px;color:var(--mut)}.quiz .q.done .ex{display:block}
+.quiz .score{font-weight:800;font-size:19px;margin-top:8px}
+.quiz .rt{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer;margin-left:10px}
+.vadd{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.vadd div{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--ok);border-radius:12px;padding:10px 14px;font-size:17px}.vadd div:nth-child(2){border-top-color:var(--ac)}.vadd div:nth-child(3){border-top-color:var(--ac2)}
+.vadd b{display:block;margin-bottom:2px}
+.pair{border:2px dashed var(--ac2);border-radius:12px;padding:10px 16px;margin:12px 0;background:var(--card)}
+.fc:nth-child(5) .fr{background:linear-gradient(135deg,#b45f06,#e8a317)}.fc:nth-child(6) .fr{background:linear-gradient(135deg,#0e7490,#22b8cf)}.fc:nth-child(5) .bk{border-color:#e8a317}.fc:nth-child(6) .bk{border-color:#22b8cf}
+.do{margin:34px 0 44px;padding:22px 26px;border:2px dashed var(--ac2);border-radius:16px;background:var(--card)}
+.do .dh{display:flex;align-items:center;gap:12px;font-weight:700;font-size:19px;margin-bottom:18px}
+.do .dh em{font-style:normal;font-size:13px;font-weight:600;background:var(--ac2);color:#fff;padding:3px 12px;border-radius:999px}
+.do .dr{display:flex;gap:16px;margin:0 0 14px;font-size:17px;line-height:1.5}
+.do .dr b{flex:0 0 74px;color:var(--ac2)}
+.do .dp{margin-top:20px;padding:12px 16px;border-left:5px solid var(--ok);background:var(--bg);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
+.do .dp b{color:var(--ok)}
+</style></head><body><div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 3 home</a><a href="block1.html">1 Triage</a><a href="block2.html" class="on">2 Alerts</a><a href="block3.html">3 Pipeline AI</a><a href="block4.html">4 Discuss</a><a href="viewer.html">Viewer</a></div></div>
+<main><div class="hero"><h1>Lab 2: 48 alerts, how many problems?</h1><p>One failure fires dozens of alerts. You turn the storm into a short list of real problems.</p><div class="chips"><span>Pairs, then solo</span><span>Concept 10 min</span><span>Guided 15 min</span><span>Solo 30 min</span><span>Copilot Chat</span></div></div>
+<div class="flipbar"><h2>Key ideas (flip each card)</h2><button id="flipall">Flip all</button></div><div class="flips" style="--fh:270px"><div class="fc" tabindex="0" role="button" aria-label="Alert storm"><div class="in"><div class="fr"><div class="ic">🌪️</div><b>Alert storm</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Alert storm</b><br>One real failure can fire <b>dozens</b> of alerts within minutes. On-call gets 48 pages for 1 problem.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Alert fatigue"><div class="in"><div class="fr"><div class="ic">😴</div><b>Alert fatigue</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Alert fatigue</b><br>Too many alerts and people mute them. Then the <b>real</b> one is missed. Fewer, better alerts save incidents.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Root vs downstream"><div class="in"><div class="fr"><div class="ic">🌳</div><b>Root vs downstream</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Root vs downstream</b><br>If A calls B and B breaks, A also alerts. B is the <b>root</b>, A is <b>downstream</b>. The dependency map shows which is which.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Noise"><div class="in"><div class="fr"><div class="ic">🔇</div><b>Noise</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Noise</b><br>Alerts that belong to <b>no</b> incident: an expiring certificate, a disk at 78%. Real, but not today's fire.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Correlation"><div class="in"><div class="fr"><div class="ic">🔗</div><b>Correlation</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Correlation</b><br>Group by <b>time</b> and by <b>dependency</b> and by what the alert says. Time alone groups wrongly.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="AI value and the check"><div class="in"><div class="fr"><div class="ic">✅</div><b>AI value and the check</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">AI value and the check</b><br>AI groups 48 alerts in one pass. You make it <b>show counts that add up</b>: if it does not total 48, it dropped some.</div></div></div></div></div>
+<h2>See it: 48 alerts become 1 problem</h2><div class="sim"><div class="sub">INC-2041 alerts. Press Play and watch them sort using the dependency map.</div><div class="strip"><div class="dots" id="strip"></div></div><div class="boxes"><div class="box inc"><h4>🔥 1 incident: 39 alerts <span class="sm">root: tracking-api DBPoolSaturated</span></h4><div class="dots" id="binc"></div><div class="cnt" id="cinc"></div></div><div class="box noi"><h4>🔇 Noise: 9 alerts</h4><div class="dots" id="bnoi"></div><div class="cnt" id="cnoi"></div></div></div><div class="ctl"><button id="play2">▶ Group the alerts</button></div><div class="msg" id="m2"></div></div>
+<div class="stuck"><b class="h">🛟 Stuck or got an error? Do this first</b><div class="rules"><span>1. Ask GitHub Copilot Chat</span><span>2. Ask your neighbour</span><span>3. Then call the trainer</span></div><pre>I got this error or I am stuck. Step I was on: ... What I see: ... (paste the error text). Explain it in simple words and tell me the exact fix.</pre><div class="sm">The AI can read your error faster than anyone. Learning to ask it well is part of the lab.</div></div>
+<div class="band a">Guided lab: 48 alerts<small>you and the trainer, about 15 min</small></div>
+<p>Folder: <code>day3\labs\block2-alert-storm</code>. <code>alerts.csv</code> has 48 alerts from the same 30 minutes. <code>services.txt</code> shows who calls whom.</p>
+<div class="val"><b>Manual today:</b> the on-call person acknowledges alerts one by one, mutes the noisy ones, and relies on memory of which service depends on which. 48 alerts means 48 pages and a lot of guessing.<br><b>With AI:</b> the AI groups 48 alerts into root and downstream in one pass, using the dependency map. You decide what is real.</div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">📝 EDITOR</span>Open <code>alerts.csv</code> and <code>services.txt</code>.</div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Find</b><span>In <code>services.txt</code>: if postgres fails, which services are hurt? List them in order.</span></div><div class="dp"><b>In production:</b> the dependency map is what on-call needs at 3 a.m. No map? Build it first.</div></div>
+
+
+<div class="vs" data-id="l2"><b>⏱️ Manual vs AI: time yourself</b><div class="row"><b>Manual: group the alerts yourself on paper (stop at 3 min)</b><span class="t" data-t="m">00:00</span><button data-s="m">Start</button><button data-p="m">Stop</button><button data-r="m">Reset</button></div><div class="row"><b>With AI: Copilot grouping + your check</b><span class="t" data-t="a">00:00</span><button data-s="a">Start</button><button data-p="a">Stop</button><button data-r="a">Reset</button></div><div class="res"></div></div>
+<div class="think"><b>Predict first:</b> how many separate problems do you think there are? Write a number.</div>
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Ask Copilot to group:<pre>Alerts: #file:alerts.csv Dependencies: #file:services.txt
+1. Group the alerts into incidents. Use the dependency map, not just the time.
+2. For each group, name the one alert that is the root and list the rest as downstream.
+3. List alerts that belong to NO incident (noise) and say why.
+4. Give counts: alerts per group, noise count. The counts must add up to 48.</pre></div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Try</b><span>Ask again: <code>Group these alerts by time only. Ignore services.txt.</code></span></div><div class="dr"><b>Compare</b><span>Do the counts change? What went wrong?</span></div><div class="dp"><b>In production:</b> AI is only as good as the context you give it.</div></div>
+
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">📝 EDITOR</span>Reveal check: open <code>day3\content\viewer.html</code>, tab 2, press Reveal after you have your own grouping. Then add up the counts yourself. Does Copilot count to 48? Is each noise alert really unrelated to the others (check the dependency map)?</div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>4 min</em></div><div class="dr"><b>Find</b><span>The 9 noise alerts (certificate, disk).</span></div><div class="dr"><b>Decide</b><span>For each one: page, ticket, or delete?</span></div><div class="dp"><b>In production:</b> every page must need action <b>now</b>. A cert expiring in 3 days is a ticket.</div></div>
+
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Now the on-call question:<pre>If I can only look at ONE alert first, which one and why? What would I check next?</pre></div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Write</b><span>One rule: when <code>tracking-api DBPoolSaturated</code> fires, silence these alerts: ______</span></div><div class="dp"><b>In production:</b> dependency-aware alerting turns 48 pages into 1.</div></div>
+
+
+<div class="takeaway"><b>⭐ Reusable prompt (you need it for the solo challenge)</b><pre>Alerts: #file:ALERTS Dependencies: #file:MAP
+1. Group into incidents using the dependency map.
+2. Root alert per group, the rest downstream.
+3. Noise alerts and why.
+4. Counts that add up to the total.</pre></div>
+<div class="band b">Solo challenge: the second storm<small>you alone, about 30 min</small></div>
+<div class="mission"><b>🎯 Your mission</b><div class="g"><div><b>What you do</b>A new storm of 51 alerts from a different system (FreightFlow EU). Find the real problems.</div><div><b>Done looks like</b>A list of incidents, each with its root alert and a count, plus the noise alerts. Your counts add up to 51.</div><div><b>AI value you practise</b>AI groups using the dependency map. You check that the counts add up and that nothing is mixed.</div><div><b>Files</b><code>day3\labs\block2-solo-alert-storm-2</code> (alerts-storm2.csv, services-storm2.txt)</div></div></div>
+<div class="think"><b>Rules:</b> work alone. Use the reusable prompt above. If you hit an error or get confused, ask Copilot first (see the box above). <b>Hint:</b> this storm has more than one real problem. Some services appear in both. Read the alert <b>text</b>, not just the service name.</div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">📝 EDITOR</span>Open <code>alerts-storm2.csv</code> and <code>services-storm2.txt</code> in <code>block2-solo-alert-storm-2</code>. <b>Write your own guess</b>: how many real problems?</div></div>
+
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Paste the reusable prompt into Copilot Chat. Change the total to 51. Read the answer.</div></div>
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">📝 EDITOR</span><b>Check it.</b> Add up the counts: do they total 51? Pick one alert from each group and check it against the dependency map. Check each noise alert too.</div></div>
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Ask: <code>If I can only look at ONE alert first, which one and why?</code> Compare with your own pick.</div></div>
+
+<details class="key"><summary>Check your answer (open only after you have your own)</summary><p><b>2 incidents + noise = 51 alerts.</b></p><p><b>Incident 1, orders database (22 alerts).</b> Root: <code>postgres-orders DiskUsageCritical 98%</code> at 14:10:00. Downstream: postgres-orders 1 more, orders-service 9, api-gateway 6 (<code>High5xx route=/orders</code>), web-portal 5 (<code>CheckoutFailures</code>).</p><p><b>Incident 2, redis cache (20 alerts).</b> Root: <code>redis-cache MemoryHigh 95%</code> at 14:16:00. Downstream: redis-cache 2 more, inventory-service 8, api-gateway 5 (<code>HighLatency route=/stock</code>), web-portal 4 (<code>StockPageSlow</code>).</p><p><b>Noise (9):</b> batch-reports JobDelayed 3, mail-relay CertExpiringSoon 4, log-server DiskUsageHigh 78% 2. None of these services is in either dependency chain.</p><p><b>The trap:</b> api-gateway and web-portal alert in both incidents. Only the alert text (<code>/orders</code> vs <code>/stock</code>, checkout vs stock page) separates them. The first alert to check: postgres-orders disk (writes are failing and customers cannot pay).</p></details>
+<h2>Why this matters at your job</h2><div class="vadd"><div><b>Fewer pages</b>One real problem should be one page, not 48. Less noise means less fatigue.</div><div><b>Find the root first</b>Fixing the root clears the downstream alerts with it.</div><div><b>Better alert rules</b>Seeing which alerts are always noise tells you what to tune or mute, with a human decision.</div></div><div class="pair"><b>💬 Talk to your neighbour (1 min)</b><br>Which alerts in your team get ignored every week? What would you ask AI to do with last month's alerts?</div><div class="quiz"><b>🧩 Quick quiz: Lab 2 (5 questions)</b><div class="q"><p>48 alerts, 1 real problem. Which alert do you look at first?</p><button class="o">The newest</button><button class="o" data-c="1">The root alert at the start of the dependency chain</button><button class="o">The one with the longest text</button><button class="o">The loudest service</button><div class="ex">Fix the <b>root</b>. The downstream alerts clear when it is fixed.</div></div><div class="q"><p>Why does the AI need the dependency map?</p><button class="o">It does not need it</button><button class="o" data-c="1">Without it, it can only group by time</button><button class="o">It makes the answer longer</button><button class="o">It is a formality</button><div class="ex">The map tells who calls whom. Time alone groups unrelated alerts together.</div></div><div class="q"><p>"Noise" alerts in this lab are:</p><button class="o">Alerts to delete forever</button><button class="o" data-c="1">Real alerts that belong to no incident</button><button class="o">Alerts from broken tools</button><button class="o">Alerts with low severity only</button><div class="ex">A certificate expiring is real, but it is not today's fire. You decide what to do with it.</div></div><div class="q"><p>The AI groups your alerts but the counts add up to 47, not 48. You should:</p><button class="o">Accept it</button><button class="o" data-c="1">Ask it to find the missing alert</button><button class="o">Delete one alert</button><button class="o">Ignore the count</button><div class="ex">A total that does not add up means it dropped something. <b>Make it show counts that add up.</b></div></div><div class="q"><p>Alert fatigue means:</p><button class="o" data-c="1">Too many alerts lead people to mute or ignore them</button><button class="o">Alerts get tired</button><button class="o">The servers are overloaded</button><button class="o">Alerts are too quiet</button><div class="ex">When everything pages, the real one is easily missed.</div></div><div class="score"></div><button class="rt">Try again</button></div><h2>Check yourself</h2><div class="chk"><label><input type="checkbox" data-k="0"> My group counts add up to 48 (guided) and to 51 (solo)</label><label><input type="checkbox" data-k="1"> I can say which alert is the root and show it on the dependency map</label><label><input type="checkbox" data-k="2"> I found the alerts that are noise and I can say why</label><label><input type="checkbox" data-k="3"> I found one alert Copilot was unsure about and decided myself</label><label><input type="checkbox" data-k="4"> In the solo challenge I separated two incidents that share services</label></div>
+<div class="takeaway"><b>⭐ Takeaway</b><p>Alert grouping is where AI saves the most on-call time. The AI needs the <b>dependency map</b>: without it, it groups by time only. Always make it show counts that add up.</p></div></main>
+<script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d3-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+
+document.querySelectorAll('.vs').forEach(v=>{const id='vs-'+location.pathname+v.dataset.id;const T={m:0,a:0};try{const o=JSON.parse(localStorage.getItem(id)||'{}');T.m=o.m||0;T.a=o.a||0}catch(e){}
+const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function upd(){v.querySelector('[data-t=m]').textContent=f(T.m);v.querySelector('[data-t=a]').textContent=f(T.a);const r=v.querySelector('.res');if(T.m>0&&T.a>0){const x=T.m/T.a;r.textContent='Manual '+f(T.m)+' vs AI '+f(T.a)+(x>=1.2?' = AI was about '+x.toFixed(1)+'x faster. Now: was it right?':' = about the same. Why?')}else r.textContent='';try{localStorage.setItem(id,JSON.stringify(T))}catch(e){}}
+['m','a'].forEach(k=>{let h=null,t0=0,b=0;const st=v.querySelector('[data-s='+k+']'),sp=v.querySelector('[data-p='+k+']'),rs=v.querySelector('[data-r='+k+']');
+st.onclick=()=>{if(h)return;t0=Date.now();b=T[k];h=setInterval(()=>{T[k]=b+(Date.now()-t0)/1000;upd()},250)};
+sp.onclick=()=>{clearInterval(h);h=null;upd()};rs.onclick=()=>{clearInterval(h);h=null;T[k]=0;upd()}});upd()});
+
+document.querySelectorAll('.fc').forEach(c=>{const t=()=>c.classList.toggle('f');c.onclick=t;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+const fa=document.getElementById('flipall');if(fa){let on=false;fa.onclick=()=>{on=!on;document.querySelectorAll('.fc').forEach(c=>c.classList.toggle('f',on));fa.textContent=on?'Flip back':'Flip all'}}
+
+(function(){const st=document.getElementById('strip');if(!st)return;const col={'tracking-api':'#c0392b','payment-service':'#e08a00','gateway':'#7a3cf0','ui-bff':'#0a5cc4','cert':'#7f8c8d','disk':'#aab4bd'};
+const L=[];[['tracking-api',16],['payment-service',9],['gateway',9],['ui-bff',5],['cert',6],['disk',3]].forEach(a=>{for(let i=0;i<a[1];i++)L.push(a[0])});
+for(let i=L.length-1;i>0;i--){const j=(i*7+3)%(i+1);[L[i],L[j]]=[L[j],L[i]]}
+const els=L.map(k=>{const d=document.createElement('i');d.style.background=col[k];d.dataset.k=k;st.appendChild(d);return d});
+const binc=document.getElementById('binc'),bnoi=document.getElementById('bnoi');const w=ms=>new Promise(r=>setTimeout(r,ms));let busy=false;
+document.getElementById('play2').onclick=async()=>{if(busy)return;busy=true;binc.innerHTML='';bnoi.innerHTML='';els.forEach(e=>e.classList.remove('gone'));document.getElementById('cinc').textContent='';document.getElementById('cnoi').textContent='';const m=document.getElementById('m2');m.textContent='';
+const cnt={};for(const e of els){e.classList.add('gone');const k=e.dataset.k;const d=document.createElement('i');d.style.background=col[k];d.className='pop';(k=='cert'||k=='disk'?bnoi:binc).appendChild(d);cnt[k]=(cnt[k]||0)+1;await w(70)}
+document.getElementById('cinc').textContent='tracking-api '+cnt['tracking-api']+' + payment '+cnt['payment-service']+' + gateway '+cnt['gateway']+' + ui-bff '+cnt['ui-bff']+' = 39';
+document.getElementById('cnoi').textContent='certificate '+cnt['cert']+' + disk '+cnt['disk']+' = 9';m.style.color='var(--ok)';m.textContent='39 + 9 = 48. One real problem. The root is the first alert: tracking-api DBPoolSaturated.';busy=false}})();(function(){document.querySelectorAll('.quiz').forEach(z=>{const qs=[...z.querySelectorAll('.q')];const sc=z.querySelector('.score');let right=0,done=0;
+const upd=()=>{sc.textContent='Score: '+right+' / '+qs.length+(done==qs.length?(right==qs.length?'  Perfect!':right>=qs.length-1?'  Great work.':'  Flip back through the cards above and try again.'):'')};
+qs.forEach(q=>{const os=[...q.querySelectorAll('.o')];const ex=q.querySelector('.ex');for(let i=os.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[os[i],os[j]]=[os[j],os[i]]}os.forEach(o=>q.insertBefore(o,ex));q.querySelectorAll('.o').forEach(o=>o.onclick=()=>{if(q.classList.contains('done'))return;q.classList.add('done');done++;if(o.dataset.c){o.classList.add('ok');right++}else{o.classList.add('no');const g=q.querySelector('[data-c]');g.classList.add('ok')}upd()})});
+const rt=z.querySelector('.rt');if(rt)rt.onclick=()=>{right=0;done=0;qs.forEach(q=>{q.classList.remove('done');q.querySelectorAll('.o').forEach(o=>o.classList.remove('ok','no'))});upd()};upd()})})();</script></body></html>

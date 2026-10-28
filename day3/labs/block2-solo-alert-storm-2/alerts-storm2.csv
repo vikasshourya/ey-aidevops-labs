@@ -1,0 +1,52 @@
+time,service,alert,severity
+14:05:00,batch-reports,JobDelayed (nightly report),warning
+14:08:00,mail-relay,CertExpiringSoon (5 days),warning
+14:09:30,log-server,DiskUsageHigh 78%,warning
+14:10:00,postgres-orders,DiskUsageCritical 98%,critical
+14:11:30,postgres-orders,DiskUsageCritical 100% (writes failing),critical
+14:12:10,orders-service,DBWriteFailed,critical
+14:12:115,orders-service,DBWriteFailed,critical
+14:12:150,orders-service,DBWriteFailed,critical
+14:12:185,orders-service,DBWriteFailed,critical
+14:12:45,orders-service,DBWriteFailed,critical
+14:12:80,orders-service,DBWriteFailed,critical
+14:13:00,api-gateway,High5xx route=/orders,critical
+14:13:120,api-gateway,High5xx route=/orders,critical
+14:13:120,orders-service,HighErrorRate >5%,critical
+14:13:160,api-gateway,High5xx route=/orders,critical
+14:13:20,orders-service,HighErrorRate >5%,critical
+14:13:200,api-gateway,High5xx route=/orders,critical
+14:13:40,api-gateway,High5xx route=/orders,critical
+14:13:70,orders-service,HighErrorRate >5%,critical
+14:13:80,api-gateway,High5xx route=/orders,critical
+14:14:00,mail-relay,CertExpiringSoon (5 days),warning
+14:14:10,web-portal,CheckoutFailures,critical
+14:14:100,web-portal,CheckoutFailures,critical
+14:14:145,web-portal,CheckoutFailures,critical
+14:14:190,web-portal,CheckoutFailures,critical
+14:14:55,web-portal,CheckoutFailures,critical
+14:15:00,batch-reports,JobDelayed (nightly report),warning
+14:16:00,redis-cache,MemoryHigh 95%,warning
+14:17:130,inventory-service,HighLatencyP95 >1s,warning
+14:17:15,redis-cache,EvictionsHigh,warning
+14:17:180,inventory-service,HighLatencyP95 >1s,warning
+14:17:230,inventory-service,HighLatencyP95 >1s,warning
+14:17:30,inventory-service,HighLatencyP95 >1s,warning
+14:17:80,inventory-service,HighLatencyP95 >1s,warning
+14:18:05,redis-cache,EvictionsHigh,warning
+14:18:120,api-gateway,HighLatency route=/stock,warning
+14:18:140,inventory-service,CacheMissRatioHigh,warning
+14:18:160,api-gateway,HighLatency route=/stock,warning
+14:18:20,inventory-service,CacheMissRatioHigh,warning
+14:18:200,api-gateway,HighLatency route=/stock,warning
+14:18:40,api-gateway,HighLatency route=/stock,warning
+14:18:80,api-gateway,HighLatency route=/stock,warning
+14:18:80,inventory-service,CacheMissRatioHigh,warning
+14:19:130,web-portal,StockPageSlow,warning
+14:19:180,web-portal,StockPageSlow,warning
+14:19:30,web-portal,StockPageSlow,warning
+14:19:80,web-portal,StockPageSlow,warning
+14:20:00,mail-relay,CertExpiringSoon (5 days),warning
+14:22:30,log-server,DiskUsageHigh 78%,warning
+14:25:00,batch-reports,JobDelayed (nightly report),warning
+14:26:00,mail-relay,CertExpiringSoon (5 days),warning

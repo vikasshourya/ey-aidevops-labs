@@ -1,0 +1,3 @@
+2026-10-22 07:30  gateway          v4.2.1   ok
+2026-10-22 08:50  worker           v3.1.0   deployed (change: cache shipment lookups in memory, no size limit)
+2026-10-22 10:05  ui-bff           v1.9.3   deployed (change: update footer text)

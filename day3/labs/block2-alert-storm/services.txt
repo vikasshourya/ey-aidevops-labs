@@ -1,0 +1,8 @@
+FreightFlow service dependencies (A -> B means A calls B)
+
+ui-bff          -> gateway
+gateway         -> tracking-api, payment-service
+payment-service -> tracking-api
+tracking-api    -> postgres (connection pool, max 100)
+worker          -> postgres
+notification-service -> smtp relay (standalone, no other service depends on it)

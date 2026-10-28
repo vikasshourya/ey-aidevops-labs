@@ -1,0 +1,209 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lab 1: What broke?</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ac2:#7a3cf0;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ac2:#b08cff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615;--bad:#ff7b6b}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:32px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.hero{background:linear-gradient(120deg,var(--ac),var(--ac2));color:#fff;border-radius:16px;padding:22px 24px;margin:14px 0}
+.hero h1{margin:0 0 6px;color:#fff}.hero p{margin:4px 0;font-size:19px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips span{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px;font-size:15px}
+.what{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px;margin:14px 0}
+.what div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;border-top:4px solid var(--ac)}
+.what div:nth-child(2){border-top-color:var(--bad)}.what div:nth-child(3){border-top-color:var(--ac2)}.what div:nth-child(4){border-top-color:var(--ok)}
+.what b.h{display:block;font-size:19px;margin-bottom:2px}
+.band{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 16px;margin:34px 0 10px;color:#fff;font-size:22px;font-weight:700}
+.band small{font-weight:400;font-size:16px;opacity:.9;margin-left:auto}
+.band.s{background:#566}.band.a{background:linear-gradient(120deg,#c26a00,#e08a00)}.band.b{background:linear-gradient(120deg,var(--ac2),var(--ac))}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:12px 0;display:flex;gap:14px}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step .c{flex:1;min-width:0}
+.step.fail .n{background:var(--bad)}.step.good .n{background:var(--ok)}
+.tag{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:1px 8px;background:var(--ac);color:#fff;margin-right:6px}
+.exp{font-size:16px;margin-top:4px;color:var(--mut)}
+.exp.bad{color:var(--bad);font-weight:700}.exp.ok{color:var(--ok);font-weight:700}
+pre.y{max-height:240px}pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac2);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 10px 10px 0}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:12px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+.vs{border:2px solid var(--ac);border-radius:12px;padding:10px 16px;margin:14px 0;background:var(--card)}.vs .row{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.vs .row b{min-width:150px}.vs button{font:inherit;font-size:15px;padding:2px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}.vs .t{font-variant-numeric:tabular-nums;font-size:22px;min-width:70px}.vs .res{font-weight:700;color:var(--ok);margin-top:6px}
+
+.flipbar{display:flex;justify-content:space-between;align-items:center}.flipbar button{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer}
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.fc{perspective:900px;height:var(--fh,290px);cursor:pointer;outline:none}.fc:focus-visible .in{box-shadow:0 0 0 3px var(--ac)}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.f .in{transform:rotateY(180deg)}
+.fc .fr,.fc .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.fc .fr{color:#fff;align-items:center;text-align:center}.fc .fr .ic{font-size:40px;line-height:1}.fc .fr b{font-size:21px;margin-top:6px}.fc .fr small{opacity:.85;margin-top:6px;font-size:14px}
+.fc .bk b.bt{font-size:18px;color:var(--ac)}.fc .bk{transform:rotateY(180deg);background:var(--card);border:2px solid var(--ac);font-size:16.5px;overflow:auto}
+.fc:nth-child(1) .fr{background:linear-gradient(135deg,#0a5cc4,#3a86ff)}.fc:nth-child(2) .fr{background:linear-gradient(135deg,#c0392b,#ef6c4d)}.fc:nth-child(3) .fr{background:linear-gradient(135deg,#7a3cf0,#a77bff)}.fc:nth-child(4) .fr{background:linear-gradient(135deg,#0b7a3b,#35b36b)}
+.fc:nth-child(2) .bk{border-color:var(--bad)}.fc:nth-child(3) .bk{border-color:var(--ac2)}.fc:nth-child(4) .bk{border-color:var(--ok)}
+.sim{border:2px solid var(--ac2);border-radius:16px;padding:14px 18px;margin:16px 0;background:var(--card)}
+.sim h3{margin:0 0 4px;font-size:21px}.sim .sub{color:var(--mut);font-size:16px;margin-bottom:10px}
+.sim .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sim .col{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.sim .col h4{margin:0 0 8px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;background:var(--bd);display:block;transition:background .4s,transform .4s}
+.grid i.nw{background:var(--ok);transform:scale(1.1)}.grid i.bd{background:var(--bad)}
+.chaos i{animation:flick 1.4s infinite}
+@keyframes flick{0%{background:#e0a800}25%{background:#c0392b}50%{background:#7a3cf0}75%{background:#0a5cc4}100%{background:#e0a800}}
+.pipe{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}.pipe span{flex:1;min-width:78px;text-align:center;font-size:14px;padding:6px 4px;border-radius:8px;background:var(--card);border:2px solid var(--bd);transition:.3s}
+.pipe span.on{border-color:var(--ac);background:var(--ac);color:#fff;transform:translateY(-2px)}
+.pipe span.ok{border-color:var(--ok);background:var(--ok);color:#fff}.pipe span.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.sim .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.sim .ctl button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.sim .ctl label{font-size:16px;cursor:pointer}
+.sim .msg{min-height:26px;font-weight:700;margin-top:6px}
+.vchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.vchips span{background:var(--ok);color:#fff;border-radius:999px;padding:4px 14px;font-size:16px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.chaos i{animation:none}.fc .in{transition:none}}
+.val{border-left:5px solid var(--ok);padding:6px 14px;margin:10px 0;background:var(--card);font-size:17px;border-radius:0 10px 10px 0}.val b{color:var(--ok)}
+
+.idea{border:2px solid var(--ac);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.idea label{display:block;font-weight:700;margin:10px 0 3px}.idea label small{font-weight:400;color:var(--mut)}
+.idea textarea,.idea input{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:8px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+.idea textarea{min-height:64px;resize:vertical}
+.timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0}.timer .big{font-size:34px;font-variant-numeric:tabular-nums;font-weight:800;min-width:110px}.timer button,.idea button{font:inherit;font-size:16px;border:0;border-radius:999px;padding:6px 18px;background:var(--ac2);color:#fff;cursor:pointer;font-weight:700}
+.timer button.g{background:var(--card);color:var(--fg);border:1px solid var(--bd)}
+.warn{border-left:5px solid var(--bad);background:var(--card);padding:8px 14px;margin:12px 0;border-radius:0 10px 10px 0}
+.warn b{color:var(--bad)}
+
+.stuck{border:2px dashed var(--ac);border-radius:12px;padding:10px 16px;margin:16px 0;background:var(--card)}
+.stuck b.h{color:var(--ac)}
+.rules{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.rules span{background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:3px 12px;font-size:15px}
+.mission{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:12px 0;background:var(--card)}
+.mission .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px}
+.mission .g div{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:16.5px}
+.mission .g b{display:block;color:var(--ac2);font-size:15px;text-transform:uppercase;letter-spacing:.4px}
+details.key{border:1px solid var(--bd);border-radius:12px;padding:8px 16px;margin:12px 0;background:var(--card)}details.key summary{cursor:pointer;font-weight:700;color:var(--ac)}
+.chain{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.chain .r{display:grid;grid-template-columns:70px 1fr 40px;gap:10px;align-items:center;opacity:.25;transition:opacity .4s}.chain .r.on{opacity:1}
+.chain .r .tm{font-variant-numeric:tabular-nums;color:var(--mut);font-size:15px}
+.chain .r .lbl{font-size:16px}.chain .r .bar{height:12px;border-radius:6px;background:var(--bd);margin-top:3px;overflow:hidden}.chain .r .bar i{display:block;height:100%;width:0;background:var(--ac);transition:width 1s}
+.chain .r.cause .bar i{background:var(--ok)}.chain .r.loud .bar i{background:var(--bad)}
+.chain .r .n{font-weight:700;text-align:right}
+.tagc{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:0 6px;margin-left:6px;color:#fff}.tagc.c{background:var(--ok)}.tagc.l{background:var(--bad)}
+.boxes{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-top:10px}
+.box{border:2px solid var(--bd);border-radius:12px;padding:8px 10px;min-height:110px;background:var(--bg)}.box h4{margin:0 0 6px;font-size:16px}
+.box.inc{border-color:var(--bad)}.box.noi{border-color:var(--mut)}
+.dots{display:flex;flex-wrap:wrap;gap:4px}.dots i{width:16px;height:16px;border-radius:50%;display:block;transition:transform .35s,opacity .35s}
+.dots i.pop{animation:pop .4s}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.dots i.gone{transform:scale(0);opacity:0}
+.cnt{font-size:15px;color:var(--mut);margin-top:6px}
+.strip{border:2px dashed var(--bd);border-radius:12px;padding:8px 10px;background:var(--bg)}
+
+.quiz{border:2px solid var(--ac2);border-radius:14px;padding:12px 18px;margin:16px 0;background:var(--card)}
+.quiz .q{margin:14px 0;padding-bottom:10px;border-bottom:1px solid var(--bd)}.quiz .q:last-of-type{border-bottom:0}
+.quiz .q p{margin:0 0 6px;font-weight:700}
+.quiz .o{display:block;width:100%;text-align:left;font:inherit;font-size:17px;padding:7px 12px;margin:5px 0;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}
+.quiz .o:hover{border-color:var(--ac2)}.quiz .o.ok{border-color:var(--ok);background:var(--ok);color:#fff}.quiz .o.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.quiz .ex{display:none;margin-top:6px;font-size:16px;color:var(--mut)}.quiz .q.done .ex{display:block}
+.quiz .score{font-weight:800;font-size:19px;margin-top:8px}
+.quiz .rt{font:inherit;font-size:15px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 14px;cursor:pointer;margin-left:10px}
+.vadd{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.vadd div{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--ok);border-radius:12px;padding:10px 14px;font-size:17px}.vadd div:nth-child(2){border-top-color:var(--ac)}.vadd div:nth-child(3){border-top-color:var(--ac2)}
+.vadd b{display:block;margin-bottom:2px}
+.pair{border:2px dashed var(--ac2);border-radius:12px;padding:10px 16px;margin:12px 0;background:var(--card)}
+.fc:nth-child(5) .fr{background:linear-gradient(135deg,#b45f06,#e8a317)}.fc:nth-child(6) .fr{background:linear-gradient(135deg,#0e7490,#22b8cf)}.fc:nth-child(5) .bk{border-color:#e8a317}.fc:nth-child(6) .bk{border-color:#22b8cf}
+.do{margin:34px 0 44px;padding:22px 26px;border:2px dashed var(--ac2);border-radius:16px;background:var(--card)}
+.do .dh{display:flex;align-items:center;gap:12px;font-weight:700;font-size:19px;margin-bottom:18px}
+.do .dh em{font-style:normal;font-size:13px;font-weight:600;background:var(--ac2);color:#fff;padding:3px 12px;border-radius:999px}
+.do .dr{display:flex;gap:16px;margin:0 0 14px;font-size:17px;line-height:1.5}
+.do .dr b{flex:0 0 74px;color:var(--ac2)}
+.do .dp{margin-top:20px;padding:12px 16px;border-left:5px solid var(--ok);background:var(--bg);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
+.do .dp b{color:var(--ok)}
+</style></head><body><div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 3 home</a><a href="block1.html" class="on">1 Triage</a><a href="block2.html">2 Alerts</a><a href="block3.html">3 Pipeline AI</a><a href="block4.html">4 Discuss</a><a href="viewer.html">Viewer</a></div></div>
+<main><div class="hero"><h1>Lab 1: What broke?</h1><p>Something is broken in production. You find the cause from raw evidence, then write the update for managers.</p><div class="chips"><span>Pairs, then solo</span><span>Concept 10 min</span><span>Guided 20 min</span><span>Solo 30 min</span><span>Copilot Chat</span></div></div>
+<div class="flipbar"><h2>Key ideas (flip each card)</h2><button id="flipall">Flip all</button></div><div class="flips" style="--fh:270px"><div class="fc" tabindex="0" role="button" aria-label="Incident"><div class="in"><div class="fr"><div class="ic">🔥</div><b>Incident</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Incident</b><br>Customers are hurt right now. <b>Restore service first</b>, understand later. The clock that matters is MTTR: mean time to restore.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Symptom vs cause"><div class="in"><div class="fr"><div class="ic">🔊</div><b>Symptom vs cause</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Symptom vs cause</b><br>The <b>loudest</b> error is usually a symptom. The cause is <b>first in time</b>. Always ask: what happened before the noise?</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Four kinds of evidence"><div class="in"><div class="fr"><div class="ic">🧾</div><b>Four kinds of evidence</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Four kinds of evidence</b><br><b>Logs</b>: what was said. <b>Metrics</b>: how much, when. <b>Deploys</b>: what changed. <b>Dependency map</b>: who calls whom.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Triage method"><div class="in"><div class="fr"><div class="ic">🧭</div><b>Triage method</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Triage method</b><br>1. Timeline. 2. Suspect. 3. <b>Proof line</b> quoted from the logs. 4. Confidence, and what would change your mind.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Where AI helps"><div class="in"><div class="fr"><div class="ic">⚡</div><b>Where AI helps</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Where AI helps</b><br>Reads hundreds of lines in seconds, builds the timeline, and quotes lines. Anyone on call can do it at 3 a.m.</div></div></div></div><div class="fc" tabindex="0" role="button" aria-label="Where AI fools you"><div class="in"><div class="fr"><div class="ic">⚠️</div><b>Where AI fools you</b><small>tap to flip</small></div><div class="bk"><div><b class="bt">Where AI fools you</b><br>It sounds sure even when wrong. It can invent a log line or ignore the order in time. <b>Ask for proof, then check it.</b></div></div></div></div></div>
+<h2>See it: the loudest error is not the cause</h2><div class="sim"><div class="sub">INC-2041, error lines per type. Press Play and watch the order in time.</div><div class="chain" id="ch"></div><div class="ctl"><button id="play1">▶ Play the incident</button></div><div class="msg" id="m1"></div></div>
+<div class="stuck"><b class="h">🛟 Stuck or got an error? Do this first</b><div class="rules"><span>1. Ask GitHub Copilot Chat</span><span>2. Ask your neighbour</span><span>3. Then call the trainer</span></div><pre>I got this error or I am stuck. Step I was on: ... What I see: ... (paste the error text). Explain it in simple words and tell me the exact fix.</pre><div class="sm">The AI can read your error faster than anyone. Learning to ask it well is part of the lab.</div></div>
+<div class="band a">Guided lab: INC-2041<small>you and the trainer, about 20 min</small></div>
+<p>Folder: <code>day3\labs\block1-incident-triage</code>. FreightFlow had an incident (INC-2041). You have the logs (<code>incident-logs.txt</code>, 129 lines), the metrics (<code>metrics.csv</code>) and the deploys (<code>deploys.txt</code>).</p>
+<div class="val"><b>Manual today:</b> an on-call engineer opens 4 consoles, searches logs by hand, builds the timeline in a doc, and a war room of 5 to 10 people joins a call. The cause is found by whoever happens to know the system.<br><b>With AI:</b> one prompt gives a timeline, the cause and a proof line, for anyone on the team, at 3 a.m.</div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">📝 EDITOR</span>Open <code>incident-logs.txt</code>. Scroll once. Which error is the <b>loudest</b> (most lines)?</div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Find</b><span>Count the ERROR lines per service (Ctrl+F, for example <code>ERROR [gateway]</code>).</span></div><div class="dr"><b>Answer</b><span>Which service has the fewest errors, but fails first?</span></div><div class="dp"><b>In production:</b> rank by <b>time</b>, never by error count.</div></div>
+
+
+<div class="think"><b>Predict first:</b> is the loudest error the cause, or a result of the cause? Write your guess before you ask the AI.</div>
+<div class="vs" data-id="l1a"><b>⏱️ Manual vs AI: time yourself</b><div class="row"><b>Manual: read the files and find the root cause yourself (stop at 3 min)</b><span class="t" data-t="m">00:00</span><button data-s="m">Start</button><button data-p="m">Stop</button><button data-r="m">Reset</button></div><div class="row"><b>With AI: paste the prompt below and read the answer</b><span class="t" data-t="a">00:00</span><button data-s="a">Start</button><button data-p="a">Stop</button><button data-r="a">Reset</button></div><div class="res"></div></div>
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Give Copilot all three files:<pre>Incident evidence: #file:incident-logs.txt #file:metrics.csv #file:deploys.txt
+1. Build a timeline of what happened, minute by minute (max 8 lines).
+2. What is the root cause? Quote the exact log line that proves it.
+3. Which errors are symptoms, not causes?
+4. What is your confidence (high / medium / low) and what would change your mind?</pre></div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>2 min</em></div><div class="dr"><b>Ask</b><span>Copilot: <code>What 3 pieces of evidence are missing before you would trust this?</code></span></div><div class="dp"><b>In production:</b> missing evidence is the next dashboard or log line you add.</div></div>
+
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">📝 EDITOR</span>Check the proof. Open the chart: double-click <code>day3\content\viewer.html</code>, tab 1. Does the cause line move first? Use Ctrl+F on the quoted line. Then open <code>metrics.csv</code>: does the metric that matches the cause move <b>before</b> the symptoms? If the quoted line is not in the log, Copilot made it up. Tell it.</div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>4 min</em></div><div class="dr"><b>Find</b><span>In <code>metrics.csv</code>, the minute <code>db_connections_in_use</code> first doubles. Compare it with the first ERROR in the log.</span></div><div class="dr"><b>Write</b><span>One alert rule: <code>page me when db_connections_in_use &gt; __ for __ min</code></span></div><div class="dp"><b>In production:</b> alert on the <b>cause</b> metric, not on errors. It moves minutes earlier.</div></div>
+
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Ask for the fix, then challenge it:<pre>What is the right fix right now, and what is the right fix for next week? Why is &quot;increase the DB pool size&quot; not enough?</pre></div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Pairs</b><span>Pick: rollback, roll forward, or bigger pool. One line why, and the check that proves it worked.</span></div><div class="dr"><b>Find</b><span>One claim in Copilot's answer with no log line behind it.</span></div><div class="dp"><b>In production:</b> no fix ships without a recovery check. An unproven AI claim is a guess.</div></div>
+
+
+<h3>Incident summary</h3><div class="val"><b>Manual today:</b> the incident commander writes the update from memory and chat scrollback, 20 to 30 minutes after the fire is out. Times and numbers get mixed up.<br><b>With AI:</b> a first draft in seconds, every fact traceable. Your job: check the numbers.</div>
+<div class="vs" data-id="l1b"><b>⏱️ Manual vs AI: time yourself</b><div class="row"><b>Manual: write a 5-line manager summary yourself</b><span class="t" data-t="m">00:00</span><button data-s="m">Start</button><button data-p="m">Stop</button><button data-r="m">Reset</button></div><div class="row"><b>With AI: AI draft + your corrections</b><span class="t" data-t="a">00:00</span><button data-s="a">Start</button><button data-p="a">Stop</button><button data-r="a">Reset</button></div><div class="res"></div></div>
+<div class="step "><div class="n">5</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Draft the summary for managers, from the same evidence:<pre>Write an incident summary for non-technical managers, 5 lines max: impact, start time, cause, how it was fixed, what we will do next. Use only facts from the evidence files. If a fact is not in the files, write UNKNOWN.</pre></div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Tag</b><span>Write the log line number next to every fact in the summary.</span></div><div class="dr"><b>Count</b><span>How many UNKNOWNs? Who would you ask to fill each one?</span></div><div class="dp"><b>In production:</b> updates to managers need sources. UNKNOWN is a good answer.</div></div>
+
+
+<div class="step "><div class="n">6</div><div class="c"><span class="tag">📝 EDITOR</span>Check <b>every number and time</b> in the summary against the logs. Fix any that are wrong.</div></div>
+
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>4 min</em></div><div class="dr"><b>Work out</b><span>From the log: time from the first WARN to <code>incident declared</code>, and to <code>rollback complete</code>.</span></div><div class="dr"><b>Answer</b><span>Where was the time lost?</span></div><div class="dp"><b>In production:</b> these are MTTD and MTTR. The detect gap is what better alerting fixes.</div></div>
+
+
+<div class="takeaway"><b>⭐ Reusable prompt (you need it for the solo challenge)</b><pre>Evidence: #file:LOGS #file:METRICS #file:DEPLOYS
+1. Timeline (max 8 lines).
+2. Root cause, quoting the exact log line.
+3. Which errors are symptoms.
+4. Confidence and what would change your mind.</pre></div>
+<div class="band b">Solo challenge: INC-2042<small>you alone, about 30 min</small></div>
+<div class="mission"><b>🎯 Your mission</b><div class="g"><div><b>What you do</b>A new incident. Shipment status on the website is out of date for customers. Find out why.</div><div><b>Done looks like</b>A 5-line manager summary with the root cause, one proof line, and the fix: what to do now, and what to do next week.</div><div><b>AI value you practise</b>AI reads the evidence in seconds. You decide if its answer is true.</div><div><b>Files</b><code>day3\labs\block1-solo-incident-2042</code> (incident-2042-logs.txt, metrics-2042.csv, deploys-2042.txt)</div></div></div>
+<div class="think"><b>Rules:</b> work alone. Use the reusable prompt above. If you hit an error or get confused, ask Copilot first (see the box above). This incident is <b>different</b> from INC-2041: do not assume the same kind of cause.</div>
+<div class="step "><div class="n">1</div><div class="c"><span class="tag">📝 EDITOR</span>Open the 3 files in <code>block1-solo-incident-2042</code>. Skim them for 2 minutes. <b>Write your own guess</b> of the cause on paper.</div></div>
+
+<div class="step "><div class="n">2</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Paste the reusable prompt into Copilot Chat, with the 3 new files. Read the answer.</div></div>
+
+<div class="step "><div class="n">3</div><div class="c"><span class="tag">📝 EDITOR</span><b>Check it.</b> Find the proof line with Ctrl+F. Then look at <code>metrics-2042.csv</code>: which column moves <b>first</b>, and since when? Does the AI explain every column?</div></div>
+
+<div class="step "><div class="n">4</div><div class="c"><span class="tag">💬 COPILOT CHAT</span>Ask Copilot for the 5-line manager summary (same prompt as in the guided lab). Check every number and time against the files.</div></div>
+
+<details class="key"><summary>Check your answer (open only after you have your own)</summary><p><b>Root cause:</b> worker v3.1.0, deployed at 08:50, keeps shipment lookups in memory with no size limit. Memory climbs from about 40% to 100%. At 10:12:20 the worker is OOMKilled and then crash-loops (3 OOM kills by 10:29).</p><p><b>Proof line:</b> <code>10:12:20 ERROR [worker] container OOMKilled (memory limit 512Mi, usage 512Mi)</code>. In <code>metrics-2042.csv</code>, <code>worker_memory_pct</code> rises steadily from 08:50, hours before anything breaks.</p><p><b>Symptoms:</b> queue backlog (up to 7,600), stale shipment status, and the many <code>ui-bff</code> "out of date" warnings (the loudest lines).</p><p><b>Not the cause:</b> the ui-bff v1.9.3 deploy at 10:05 (a footer text change; it is the newest deploy, but memory was rising long before), the certificate warning, and disk 78%. Note that <code>error_rate_pct</code> stays flat: the error rate would not have caught this.</p><p><b>Fix now:</b> roll the worker back to v3.0.4 and let the queue drain. <b>Next week:</b> bound the cache (max size or TTL), set a memory alert at 80%, and roll new versions out gradually.</p></details>
+<h2>Why this matters at your job</h2><div class="vadd"><div><b>Faster restore</b>At 3 a.m. one person with the evidence and a good prompt can start the same triage a war room would.</div><div><b>Less guessing</b>You get a timeline and a proof line instead of an opinion. Anyone can check it.</div><div><b>Better updates</b>A first draft of the manager update in seconds. You spend your time checking, not typing.</div></div><div class="pair"><b>💬 Talk to your neighbour (1 min)</b><br>Which of your last incidents would have been faster with a timeline and a proof line? What evidence would you have needed to hand the AI?</div><div class="quiz"><b>🧩 Quick quiz: Lab 1 (5 questions)</b><div class="q"><p>In an incident, the loudest error (most log lines) is usually:</p><button class="o">The root cause</button><button class="o" data-c="1">A symptom of something that happened earlier</button><button class="o">A false alarm</button><button class="o">The first error in time</button><div class="ex">Errors spread downstream and repeat, so the noisy ones come <b>later</b>. The cause comes first in time.</div></div><div class="q"><p>The AI names a root cause and quotes a log line. What do you do first?</p><button class="o">Trust it, it quoted a line</button><button class="o" data-c="1">Press Ctrl+F and check the line really exists</button><button class="o">Ask a second AI</button><button class="o">Ignore it</button><div class="ex">AI can invent a quote. <b>Check the proof line</b> in the real file.</div></div><div class="q"><p>In INC-2042 the error rate stayed flat, but customers saw stale status. The lesson?</p><button class="o">Metrics are useless</button><button class="o" data-c="1">One metric can miss a real problem: look at several signals</button><button class="o">The AI made a mistake</button><button class="o">Logs cannot be trusted</button><div class="ex">The error rate looked fine while memory climbed and a queue grew. <b>Look at more than one signal.</b></div></div><div class="q"><p>Which evidence tells you "what changed just before the problem"?</p><button class="o" data-c="1">The deploys list</button><button class="o">The CPU graph</button><button class="o">The dependency map</button><button class="o">The alert count</button><div class="ex">A deploy or config change list shows what changed, and when.</div></div><div class="q"><p>What does MTTR stand for?</p><button class="o" data-c="1">Mean time to repair or restore</button><button class="o">Maximum traffic to resource</button><button class="o">Mean time to report</button><button class="o">Monitoring tool for reliability</button><div class="ex">MTTR is the average time to restore service. Good triage lowers it.</div></div><div class="score"></div><button class="rt">Try again</button></div><h2>Check yourself</h2><div class="chk"><label><input type="checkbox" data-k="0"> I found the root cause and checked the quoted log line is real</label><label><input type="checkbox" data-k="1"> I can explain why the loudest error was not the cause</label><label><input type="checkbox" data-k="2"> I checked in metrics.csv that the cause came before the symptoms</label><label><input type="checkbox" data-k="3"> Every time and number in my summary matches the logs</label><label><input type="checkbox" data-k="4"> In the solo challenge I did not blame the newest deploy without proof</label></div>
+<div class="takeaway"><b>⭐ Takeaway</b><p>The loudest error is usually a symptom, and the newest change is not always the cause. <b>Ask for the proof line, check it, and check the order in time.</b> AI summaries sound sure, so verify the numbers.</p></div></main>
+<script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d3-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+
+document.querySelectorAll('.vs').forEach(v=>{const id='vs-'+location.pathname+v.dataset.id;const T={m:0,a:0};try{const o=JSON.parse(localStorage.getItem(id)||'{}');T.m=o.m||0;T.a=o.a||0}catch(e){}
+const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function upd(){v.querySelector('[data-t=m]').textContent=f(T.m);v.querySelector('[data-t=a]').textContent=f(T.a);const r=v.querySelector('.res');if(T.m>0&&T.a>0){const x=T.m/T.a;r.textContent='Manual '+f(T.m)+' vs AI '+f(T.a)+(x>=1.2?' = AI was about '+x.toFixed(1)+'x faster. Now: was it right?':' = about the same. Why?')}else r.textContent='';try{localStorage.setItem(id,JSON.stringify(T))}catch(e){}}
+['m','a'].forEach(k=>{let h=null,t0=0,b=0;const st=v.querySelector('[data-s='+k+']'),sp=v.querySelector('[data-p='+k+']'),rs=v.querySelector('[data-r='+k+']');
+st.onclick=()=>{if(h)return;t0=Date.now();b=T[k];h=setInterval(()=>{T[k]=b+(Date.now()-t0)/1000;upd()},250)};
+sp.onclick=()=>{clearInterval(h);h=null;upd()};rs.onclick=()=>{clearInterval(h);h=null;T[k]=0;upd()}});upd()});
+
+document.querySelectorAll('.fc').forEach(c=>{const t=()=>c.classList.toggle('f');c.onclick=t;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+const fa=document.getElementById('flipall');if(fa){let on=false;fa.onclick=()=>{on=!on;document.querySelectorAll('.fc').forEach(c=>c.classList.toggle('f',on));fa.textContent=on?'Flip back':'Flip all'}}
+
+(function(){const rows=[['10:40','Deploy v2.4.1: retry DB query up to 5 times',0,'cause'],['10:44','tracking-api: DB connection pool full',7,''],['10:45','payment-service: upstream timeouts',12,'loud'],['10:46','gateway: 502 Bad Gateway',8,''],['10:47','gateway: 504 Gateway Timeout',8,''],['10:48','ui-bff: tracking widget failed',6,'']];
+const ch=document.getElementById('ch');if(!ch)return;rows.forEach(r=>{const d=document.createElement('div');d.className='r '+r[3];d.innerHTML='<span class="tm">'+r[0]+'</span><div><span class="lbl">'+r[1]+(r[3]=='cause'?' <span class="tagc c">CAUSE (first)</span>':'')+(r[3]=='loud'?' <span class="tagc l">LOUDEST</span>':'')+'</span><div class="bar"><i></i></div></div><span class="n">'+(r[2]||'')+'</span>';ch.appendChild(d)});
+const w=ms=>new Promise(r=>setTimeout(r,ms));let busy=false;
+document.getElementById('play1').onclick=async()=>{if(busy)return;busy=true;const m=document.getElementById('m1');m.textContent='';[...ch.children].forEach(d=>{d.classList.remove('on');d.querySelector('i').style.width='0'});
+for(let i=0;i<rows.length;i++){const d=ch.children[i];d.classList.add('on');d.querySelector('i').style.width=(rows[i][2]?rows[i][2]/12*100:8)+'%';await w(900)}
+m.style.color='var(--ok)';m.textContent='The loudest line (payment timeouts, 12) is a result. The cause came first: the 10:40 deploy.';busy=false}})();(function(){document.querySelectorAll('.quiz').forEach(z=>{const qs=[...z.querySelectorAll('.q')];const sc=z.querySelector('.score');let right=0,done=0;
+const upd=()=>{sc.textContent='Score: '+right+' / '+qs.length+(done==qs.length?(right==qs.length?'  Perfect!':right>=qs.length-1?'  Great work.':'  Flip back through the cards above and try again.'):'')};
+qs.forEach(q=>{const os=[...q.querySelectorAll('.o')];const ex=q.querySelector('.ex');for(let i=os.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[os[i],os[j]]=[os[j],os[i]]}os.forEach(o=>q.insertBefore(o,ex));q.querySelectorAll('.o').forEach(o=>o.onclick=()=>{if(q.classList.contains('done'))return;q.classList.add('done');done++;if(o.dataset.c){o.classList.add('ok');right++}else{o.classList.add('no');const g=q.querySelector('[data-c]');g.classList.add('ok')}upd()})});
+const rt=z.querySelector('.rt');if(rt)rt.onclick=()=>{right=0;done=0;qs.forEach(q=>{q.classList.remove('done');q.querySelectorAll('.o').forEach(o=>o.classList.remove('ok','no'))});upd()};upd()})})();</script></body></html>

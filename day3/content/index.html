@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Day 3: Operate with AI</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac);padding:8px 14px;margin:14px 0;background:var(--card)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+.vs{border:2px solid var(--ac);border-radius:10px;padding:10px 16px;margin:14px 0;background:var(--card)}.vs .row{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.vs .row b{min-width:150px}.vs button{font:inherit;font-size:15px;padding:2px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);cursor:pointer}.vs .t{font-variant-numeric:tabular-nums;font-size:22px;min-width:70px}.vs .res{font-weight:700;color:var(--ok);margin-top:6px}.val{border-left:5px solid var(--ok);padding:6px 14px;margin:10px 0;background:var(--card);font-size:17px}.val b{color:var(--ok)}</style></head><body><div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html" class="on">Day 3 home</a><a href="block1.html">1 Triage</a><a href="block2.html">2 Alerts</a><a href="block3.html">3 Pipeline AI</a><a href="block4.html">4 Discuss</a><a href="viewer.html">Viewer</a></div></div><main><h1>Day 3: Operate with AI</h1><p>Three short labs. Something is broken in production. In every step you will <b>time the manual way, then the AI way</b>, and see the difference yourself. The AI is fast at reading, and <b>you</b> decide what is true.</p>
+<h2>Before we start (2 minutes)</h2><div class="step"><span class="tag">🖥️ TERMINAL</span><div>Get the Day 3 files. Run these one at a time.</div><pre>cd C:\EYLAB\ey-aidevops-labs
+.\sync.ps1</pre></div><div class="step"><span class="tag">📝 EDITOR</span><div>Open VS Code on the repo root: <code>code C:\EYLAB\ey-aidevops-labs</code></div></div>
+<h2>Today</h2><p class="sm">Each block: concept (flip the cards), guided lab with the trainer, then a solo challenge. Stuck? Ask GitHub Copilot first.</p><ol><li><a href="block1.html"><b>Lab 1: What broke?</b></a> Triage an incident from logs and metrics, then write the summary. Then a solo challenge: a new incident.</li>
+<li><a href="block2.html"><b>Lab 2: 48 alerts, how many problems?</b></a> Group a noisy alert storm. Then a solo challenge: a second storm.</li>
+<li><a href="viewer.html"><b>Evidence viewer.</b></a> Charts used to check Labs 1 and 2.</li><li><a href="block3.html"><b>Lab 3: Rescue a failed pipeline with Harness AI.</b></a> Failed pipeline, AI diagnosis, reviewed fix, green pipeline.</li><li><a href="block4.html"><b>Discussion: where would you use this?</b></a> 10 to 15 minutes in small groups. Basic is fine.</li></ol>
+<div class="takeaway"><b>⭐ Takeaway</b><p>You leave with 3 reusable prompts: incident triage, alert grouping, incident summary. And one rule: the AI proposes, you check against the evidence.</p></div></main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d3-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+
+document.querySelectorAll('.vs').forEach(v=>{const id='vs-'+location.pathname+v.dataset.id;const T={m:0,a:0};try{const o=JSON.parse(localStorage.getItem(id)||'{}');T.m=o.m||0;T.a=o.a||0}catch(e){}
+const f=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function upd(){v.querySelector('[data-t=m]').textContent=f(T.m);v.querySelector('[data-t=a]').textContent=f(T.a);const r=v.querySelector('.res');if(T.m>0&&T.a>0){const x=T.m/T.a;r.textContent='Manual '+f(T.m)+' vs AI '+f(T.a)+(x>=1.2?' = AI was about '+x.toFixed(1)+'x faster. Now: was it right?':' = about the same. Why?')}else r.textContent='';try{localStorage.setItem(id,JSON.stringify(T))}catch(e){}}
+['m','a'].forEach(k=>{let h=null,t0=0,b=0;const st=v.querySelector('[data-s='+k+']'),sp=v.querySelector('[data-p='+k+']'),rs=v.querySelector('[data-r='+k+']');
+st.onclick=()=>{if(h)return;t0=Date.now();b=T[k];h=setInterval(()=>{T[k]=b+(Date.now()-t0)/1000;upd()},250)};
+sp.onclick=()=>{clearInterval(h);h=null;upd()};rs.onclick=()=>{clearInterval(h);h=null;T[k]=0;upd()}});upd()});
+</script></body></html>
