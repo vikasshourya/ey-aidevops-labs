@@ -47,15 +47,15 @@ observe (get_pods, get_logs, get_deployment)<br>
 
 <div class="step"><span class="tag">🖥️ TERMINAL</span><div>Install the one dependency (one-time):</div><pre>pip install requests</pre></div>
 
-<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Apply a healthy deployment to your namespace:</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>kubectl -n $env:NAMESPACE apply -f day4\labs\block2-rollback-agent\incident.yaml</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Apply a healthy deployment to your namespace:</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>kubectl -n $env:NAMESPACE apply -f day4\labs\block2-rollback-agent\incident.yaml</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/agent-demo</pre></div>
 
-<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Run the agent against the HEALTHY deploy. Expected: "healthy, no action".</div><pre>cd day4\labs\block2-rollback-agent</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Run the agent against the HEALTHY deploy. Expected: "healthy, no action".</div><pre>cd day4\labs\block2-rollback-agent</pre><pre>python agent.py --deployment agent-demo</pre></div>
 
-<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Now BREAK it (set a bad image) and run the agent again. Expected: it proposes <code>rollout_undo</code> and asks you to type <b>yes</b>.</div><pre>kubectl -n $env:NAMESPACE set image deploy/shipwave-api api=nginx:does-not-exist-999</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api --timeout=20s</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Now BREAK it (set a bad image) and run the agent again. Expected: it proposes <code>rollout_undo</code> and asks you to type <b>yes</b>.</div><pre>kubectl -n $env:NAMESPACE set image deploy/agent-demo api=nginx:does-not-exist-999</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/agent-demo --timeout=20s</pre><pre>python agent.py --deployment agent-demo</pre></div>
 
 <div class="think"><b>Checkpoint pause.</b> Did your agent correctly refuse to act without your <b>yes</b>? If it ran <code>rollout_undo</code> without asking, the approval gate is broken — fix it before moving on.</div>
 
-<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Confirm the recovery:</div><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api</pre><pre>type audit.log</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Confirm the recovery:</div><pre>kubectl -n $env:NAMESPACE rollout status deploy/agent-demo</pre><pre>type audit.log</pre></div>
 
 <h2>Solo: extend the agent (30 min)</h2>
 <p>Pick <b>one</b> (or both if fast). Edit <code>agent.py</code> and/or <code>tools.py</code>. Keep the approval gate.</p>
@@ -74,7 +74,7 @@ observe (get_pods, get_logs, get_deployment)<br>
 
 <div class="step"><span class="tag">💬 COPILOT CHAT</span><div>Use Copilot — don't write it from scratch:</div><pre>In #file:agent.py, change approve() so it requires typing the exact deployment name instead of 'yes'. Keep the rejection path. Show me only the diff.</pre></div>
 
-<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Re-run against the broken deploy to prove your extension works. Save the output.</div><pre>kubectl -n $env:NAMESPACE set image deploy/shipwave-api api=nginx:still-broken-888</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Re-run against the broken deploy to prove your extension works. Save the output.</div><pre>kubectl -n $env:NAMESPACE set image deploy/agent-demo api=nginx:still-broken-888</pre><pre>python agent.py --deployment agent-demo</pre></div>
 
 <h3>Paste back</h3>
 <div class="step"><div>Which option you did (1, 2, or both):</div><textarea placeholder="Option 1 — tightened approval"></textarea></div>

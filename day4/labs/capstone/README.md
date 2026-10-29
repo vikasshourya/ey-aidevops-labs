@@ -3,6 +3,8 @@
 **Due:** Wed 4 Nov 2026 EOD IST. **Submit:** send the trainer your GitHub fork link, the README below, and two screenshots.
 Trainer reviews and signs off your certificate. Your lab namespace and resource group stay available until then.
 
+> **Start here:** follow `GUIDE.md` in this folder. It walks you through the build step by step, with the exact prompts and commands.
+
 ## The ask
 
 Build and deploy **QuickQuote**, a tiny service:

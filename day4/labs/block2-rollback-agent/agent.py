@@ -5,7 +5,7 @@ investigates a deployment, decides healthy/unhealthy, proposes a rollback,
 asks the operator, then acts.  Everything is logged to audit.log.
 
 Usage:
-  python agent.py --deployment shipwave-api
+  python agent.py --deployment agent-demo
 """
 import argparse, json, os, sys, time, requests
 from pathlib import Path
@@ -62,8 +62,9 @@ def run(namespace, deployment):
             "You are a Kubernetes deploy health-check agent. "
             "Use the tools to investigate the given deployment. "
             "Decide healthy or unhealthy. If unhealthy and a previous revision "
-            "exists, propose exactly ONE rollout_undo call. Never run it directly "
-            "without the operator approving first."},
+            "exists, CALL the rollout_undo tool exactly once. Do not ask the operator "
+            "in text: the program itself shows the operator an approval prompt "
+            "before the tool runs. If healthy, say so and call no action tool."},
         {"role": "user", "content":
             f"Deployment '{deployment}' in namespace '{namespace}'. "
             "Investigate and decide."},
