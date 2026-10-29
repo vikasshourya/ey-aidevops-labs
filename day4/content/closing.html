@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Closing lab + 4-day debrief</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}h3{font-size:20px;margin-top:1.2em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.race{border:2px solid var(--ac);background:var(--card);border-radius:10px;padding:14px 16px;margin:14px 0}
+.sm{color:var(--mut);font-size:16px}
+textarea{width:100%;min-height:80px;font-family:ui-monospace,Consolas,monospace;font-size:14px;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);box-sizing:border-box}
+</style></head><body>
+<div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 4 home</a><a href="block1.html">1 IaC → Azure</a><a href="block2.html">2 Agent</a><a href="block3.html">3 FinOps</a><a href="closing.html" class="on">Closing</a></div></div>
+<main>
+<h1>Closing lab + 4-day debrief (20 min)</h1>
+
+<h2>The closing lab — Mystery vibe-deploy (15 min)</h2>
+<div class="race"><b>🏁 Race rules</b>
+<ul>
+<li>Trainer drops a one-line spec in chat the moment the clock starts.</li>
+<li>You use everything you have: Copilot, spec, Dockerfile, Helm, kubectl.</li>
+<li>Deploy to your own namespace (it is already in <code>$env:NAMESPACE</code>).</li>
+<li><b>Win condition:</b> first person whose <code>GET /health</code> returns <code>200</code> from inside the cluster, with the trainer-named path responding, wins.</li>
+<li>Share your screen when you win so everyone sees the finish.</li>
+</ul></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Starter commands (adapt to the trainer's spec):</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>mkdir -Force day4\mystery</pre><pre>cd day4\mystery</pre><div class="sm">1. Ask Copilot for: app + Dockerfile + k8s.yaml (Deployment + Service) from the trainer's one-line spec</div><div class="sm">2. Image name MUST start with your namespace:</div><pre>$img = "$env:ACR_LOGIN_SERVER/$env:NAMESPACE/mystery:v1"</pre><pre>docker build -t $img .</pre><pre>docker push $img</pre><div class="sm">3. Put $img in k8s.yaml, then:</div><pre>kubectl apply -f k8s.yaml</pre><pre>kubectl rollout status deploy/mystery</pre><pre>kubectl port-forward svc/mystery 8080:80</pre><div class="sm">4. In a second terminal:</div><pre>curl http://localhost:8080/health</pre></div>
+
+<h2>The thread across 4 days (5 min)</h2>
+<p>Zoom out. One sentence per day:</p>
+<ul>
+<li><b>Day 1 — Build.</b> A spec beats a prompt. Score the AI with a checker.</li>
+<li><b>Day 2 — Ship.</b> Tests from the spec, not the code. CI failures are evidence, read them.</li>
+<li><b>Day 3 — Operate.</b> Logs and alerts are noisy; triage with AI, verify with your eyes.</li>
+<li><b>Day 4 — Automate.</b> Let AI write infrastructure and act on the cluster — behind a PR and an approval gate — and know the cost.</li>
+</ul>
+<p>The thread: <b>trust but verify, with numbers.</b></p>
+
+<h2>Capstone (take-home)</h2>
+<div class="step"><div>Open the full brief and submit within 5 working days:</div><pre>code day4\labs\capstone\README.md</pre></div>
+<p class="sm">In short: ship a tiny micro-app ("QuickQuote") to your AKS namespace with Docker and Helm. Optional stretch: a Terraform Key Vault in your own resource group. Send the trainer your fork link, a short write-up and two screenshots by Wed 4 Nov. Trainer reviews and signs off your certificate.</p>
+
+<h2>Your one takeaway</h2>
+<div class="step"><div>Write it down. Keep it. Share it with your team on Monday.</div>
+<p>The <b>one</b> thing you will change about how you use AI in your DevOps work from Monday:</p>
+<textarea placeholder="From Monday I will..."></textarea>
+</div>
+
+<div class="takeaway"><b>⭐ 4-day takeaway</b>
+<p>AI did a lot of the typing this week. You decided what good looked like and you verified it with numbers. That is the job now. Thank you — and ship something.</p></div>
+
+</main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('textarea').forEach((t,i)=>{const k='d4t-'+location.pathname+i;try{t.value=localStorage.getItem(k)||''}catch(e){}t.oninput=()=>{try{localStorage.setItem(k,t.value)}catch(e){}}});
+</script></body></html>

@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Block 1: Vibe-code IaC → Azure</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}h3{font-size:20px;margin-top:1.2em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac);padding:8px 14px;margin:14px 0;background:var(--card)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+textarea{width:100%;min-height:100px;font-family:ui-monospace,Consolas,monospace;font-size:14px;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);box-sizing:border-box}
+.quiz{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.story{border:2px solid var(--ok);background:var(--card);border-radius:10px;padding:12px 16px;margin:16px 0}
+.quiz p{margin:6px 0 2px}
+</style></head><body>
+<div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 4 home</a><a href="block1.html" class="on">1 IaC → Azure</a><a href="block2.html">2 Agent</a><a href="block3.html">3 FinOps</a><a href="closing.html">Closing</a></div></div>
+<main>
+<h1>Block 1: Vibe-code IaC and deploy to Azure (70 min)</h1>
+<p><b>You will:</b> write Terraform with Copilot from a short spec, run <code>plan</code> and <code>apply</code>, and check what was created with a scorer. The trainer then opens the Azure Portal on screen so everyone sees the real resources. All of it lands in your own resource group (already created for you).</p>
+
+<div class="story"><b>📖 The story</b>
+<p><b>Scenario:</b> You join the platform team at <b>FastFreight</b>, a logistics company. The new <b>ShipWave</b> tracking service goes live next week. Today the team builds its cloud foundation by hand in the portal, and no two environments match. Your lead says: "Write it as code. Review it. Deploy it."</p>
+<p><b>What you will create (in your own resource group <code>rg-ff-uNN</code>):</b></p>
+<ul>
+<li><b>Storage Account</b> – holds shipment files and documents (versioned, HTTPS only, TLS 1.2)</li>
+<li><b>Key Vault</b> – holds secrets such as API keys and DB passwords, never in code (soft-delete and purge protection on)</li>
+<li><b>Solo round adds:</b> Log Analytics workspace (central logs), a Function App on a consumption plan (tiny serverless API), and a diagnostic setting that sends storage logs to the workspace</li>
+</ul>
+<p><b>Why:</b> every ShipWave environment (dev, test, prod) needs the same foundation. Code gives you the same result every time, a review before changes, and a rebuild in minutes.</p></div>
+
+<h2>What is Terraform and IaC? (10 min)</h2>
+<p><b>Infrastructure as Code (IaC)</b> means describing servers, networks, storage and permissions in text files instead of clicking in a portal. <b>Terraform</b> (HashiCorp) is the most widely used IaC tool. You declare the end state you want, and Terraform works out what to create, change or delete.</p>
+<div class="step"><b>The 4 commands you will use</b>
+<ul>
+<li><code>init</code> – download the provider plugin (azurerm)</li>
+<li><code>plan</code> – preview the changes. Nothing is created yet</li>
+<li><code>apply</code> – make the changes real</li>
+<li><code>destroy</code> – remove everything Terraform created</li>
+</ul></div>
+<p><b>Why it matters:</b></p>
+<ul>
+<li><b>Repeatable:</b> same file, same result in dev, test and prod</li>
+<li><b>Reviewable:</b> infra changes go through a pull request like application code</li>
+<li><b>Auditable:</b> Git history shows who changed what, and when</li>
+<li><b>Recoverable:</b> rebuild an environment in minutes after a disaster</li>
+</ul>
+<p><b>How big enterprises use it:</b> infra code lives in Git, one module library per standard (network, AKS, storage). A PR runs <code>plan</code> and policy checks (security, cost). A pipeline runs <code>apply</code> after approval. State is kept in a shared remote store with locking. Nobody changes production by hand.</p>
+<p><b>Alternatives:</b></p>
+<ul>
+<li><b>Azure:</b> Bicep / ARM templates (Azure only)</li>
+<li><b>AWS:</b> CloudFormation, AWS CDK</li>
+<li><b>Multi-cloud:</b> Pulumi (real languages: Python, TypeScript), OpenTofu (open-source Terraform fork), Crossplane (Kubernetes-native)</li>
+<li><b>Non-cloud / config management:</b> Ansible, Chef, Puppet, Salt (servers and software setup). Terraform provisions the infrastructure; Ansible then configures what runs on it</li>
+</ul>
+<div class="think"><b>Rule of thumb:</b> Terraform (or OpenTofu) for multi-cloud and most enterprises, Bicep if you are 100% Azure, Ansible for what runs inside the servers.</div>
+
+<h2>Why spec-driven, not prompt-driven (10 min)</h2>
+<p>A one-line prompt — "write Terraform for Azure storage" — leaves Copilot to guess the SKU, the region, whether versioning is on, what tags you want, and the API version. You pay for those guesses in production. A short <b>spec</b> with numbered requirements removes the guesswork.</p>
+<div class="think"><b>Keep in mind:</b> the spec is the artifact that outlives this chat. Save it. Re-use it. Hand it to the next person on your team.</div>
+
+<h2>Guided: Storage Account + Key Vault (25 min)</h2>
+
+<div class="step"><span class="tag">📝 EDITOR</span><div><b>Read the spec (1 min).</b> It has 6 numbered requirements. Copilot will build from this list, and you will check its work against it.</div><pre>code day4\labs\block1-iac\spec.md</pre><div class="think"><b>Your turn:</b> pick the one requirement you think Copilot is most likely to get wrong. Type it in the chat.</div></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Create your working folder and empty Terraform file (you'll fill it with Copilot):</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>mkdir -Force day4\block1</pre><pre>code day4\block1\main.tf</pre></div>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT</span><div>In Copilot Chat, with <code>main.tf</code> open:</div><pre>Read #file:spec.md (from day4/labs/block1-iac). Write a complete main.tf for Azure using azurerm ~> 4.0 that meets every numbered requirement. Output a single main.tf. Nothing else.</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Validate locally:</div><pre>cd day4\block1</pre><pre>terraform init</pre><pre>terraform fmt</pre><pre>terraform validate</pre><pre>terraform plan</pre></div>
+
+<div class="think"><b>Checkpoint pause.</b> Trainer walks through what Copilot got wrong on their run (common ones: deprecated <code>soft_delete_enabled</code>, missing <code>features {}</code> block, hardcoded location, wrong tenant_id). Fix yours.</div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Apply (this creates the real resources in Azure):</div><pre>terraform apply -auto-approve</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Check what Terraform created:</div><pre>terraform state list</pre><pre>terraform output</pre></div>
+
+<div class="think"><b>Trainer screen share:</b> the trainer opens the Azure Portal and shows a few of your resource groups live: Storage Account, Key Vault, tags, versioning, soft-delete. Compare with the spec.</div>
+
+<h2>Solo: observability stack (30 min)</h2>
+
+<div class="step"><span class="tag">📝 EDITOR</span><div><b>Read the solo spec (1 min).</b> It lists 5 more resources to ADD to your <code>main.tf</code>, not replace it.</div><pre>code C:\EYLAB\ey-aidevops-labs\day4\labs\block1-iac\spec-solo.md</pre></div>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT</span><div>Give Copilot the spec:</div><pre>Read #file:spec-solo.md and extend my existing #file:main.tf. Do not remove anything that is already there. Keep the provider pinned and the tags consistent.</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Validate, plan, apply:</div><pre>cd C:\EYLAB\ey-aidevops-labs\day4\block1</pre><pre>terraform fmt</pre><pre>terraform validate</pre><pre>terraform plan      # scroll: it should list 4 or more NEW resources</pre><pre>terraform apply -auto-approve</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Score what landed:</div><pre>python ..\labs\block1-iac\verify.py</pre></div>
+
+<div class="think"><b>Stuck on an error?</b> Paste the full error into Copilot Chat with <code>#file:main.tf</code> and ask for the smallest fix. Read the fix before you accept it.</div>
+
+<h3>Paste back</h3>
+<div class="step"><div><code>verify.py</code> scorecard (paste the whole output):</div><textarea placeholder="Scorecard for rg-ff-u01..."></textarea></div>
+
+<h2>Debrief + quiz (5 min)</h2>
+<div class="quiz">
+<p><b>Q1.</b> Why pin the provider version to <code>~&gt; 4.0</code> in the spec, instead of leaving it open?</p>
+<textarea></textarea>
+<p><b>Q2.</b> What does <code>terraform plan</code> show you that <code>apply</code> alone does not?</p>
+<textarea></textarea>
+<p><b>Q3.</b> Why should a teammate review the <code>plan</code> output before anyone runs <code>apply</code>?</p>
+<textarea></textarea>
+</div>
+
+<h2>Check yourself</h2>
+<div class="chk">
+<label><input type="checkbox" data-k="0"> verify.py shows 100 / 100 (or I know which resource is missing and why)</label>
+<label><input type="checkbox" data-k="1"> I read the terraform plan before I ran apply</label>
+<label><input type="checkbox" data-k="2"> I can name one thing Copilot got wrong this time</label>
+</div>
+
+<div class="takeaway"><b>⭐ Takeaway</b>
+<p>A short spec + Copilot is faster than the console AND leaves a file you can review. The spec is the artifact that outlives the chat. Pin provider versions. Read <code>plan</code> before you <code>apply</code>.</p>
+<p>Reusable prompt:</p>
+<pre>Read #file:SPEC.md and write Terraform using azurerm ~> 4.0 that meets every numbered requirement. Ask me for anything the spec does not tell you (user number, region, tags). Return one main.tf.</pre>
+</div>
+
+</main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d4-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+document.querySelectorAll('textarea').forEach((t,i)=>{const k='d4t-'+location.pathname+i;try{t.value=localStorage.getItem(k)||''}catch(e){}t.oninput=()=>{try{localStorage.setItem(k,t.value)}catch(e){}}});
+</script></body></html>

@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Day 4: Automate</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.sm{color:var(--mut);font-size:16px}
+</style></head><body>
+<div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html" class="on">Day 4 home</a><a href="block1.html">1 IaC → Azure</a><a href="block2.html">2 Agent</a><a href="block3.html">3 FinOps</a><a href="closing.html">Closing</a></div></div>
+<main>
+<h1>Day 4: Automate</h1>
+<p>You already know AI can write code. Today you let it <b>ship</b> — infrastructure, pipelines, and a small agent that acts on your cluster. One thing stays constant across every block: <b>trust but verify, with numbers</b>.</p>
+
+<h2>Before we start (2 minutes)</h2>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Pull Day 4 files.</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>.\sync.ps1</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Check your machine. Paste the one-line result in chat.</div><pre>.\preflight.ps1</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Load your lab card into THIS terminal.</div><pre>. C:\EYLAB\ey-aidevops-labs\lab-env.ps1</pre></div>
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Check your Day 4 tools and Azure card. You should see a version number for each, and your resource group name.</div><pre>terraform version</pre><pre>infracost --version</pre><pre>kubectl version --client</pre><pre>echo $env:RESOURCE_GROUP</pre></div>
+<div class="step"><span class="tag">📝 EDITOR</span><div>Open VS Code on the repo root: <code>code C:\EYLAB\ey-aidevops-labs</code></div></div>
+
+<h2>Today</h2>
+<p class="sm">Each block: concept, guided lab with the trainer, then a solo challenge. Paste back into the page, answer the 3-question quiz, done.</p>
+<ol>
+<li><a href="block1.html"><b>Block 1: Vibe-code infrastructure and deploy to Azure.</b></a> Spec → Terraform → apply → check with a scorer, then the trainer shows it live in the Azure Portal.</li>
+<li><a href="block2.html"><b>Block 2: Build a DevOps agent.</b></a> A small Python agent that checks a deployment, proposes a rollback, waits for your <b>yes</b>, then acts.</li>
+<li><a href="block3.html"><b>Block 3: FinOps — what did AI just cost you?</b></a> See the price of what you built. Rewrite the spec. Watch it drop.</li>
+<li><a href="closing.html"><b>Closing: mystery vibe-deploy + capstone brief.</b></a> One race, one take-home.</li>
+</ol>
+
+<div class="takeaway"><b>⭐ Day 4 takeaway</b>
+<p>By the end of today you'll have shipped real infrastructure from a short spec, built a working agent with a human-in-the-loop, and know what your AI-written IaC costs before it bills you. The capstone (take-home) lets you prove it on your own.</p></div>
+
+</main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+</script></body></html>

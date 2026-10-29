@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Block 3: FinOps — what did AI just cost you?</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}h3{font-size:20px;margin-top:1.2em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac);padding:8px 14px;margin:14px 0;background:var(--card)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+textarea{width:100%;min-height:100px;font-family:ui-monospace,Consolas,monospace;font-size:14px;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);box-sizing:border-box}
+.quiz{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.quiz p{margin:6px 0 2px}
+</style></head><body>
+<div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 4 home</a><a href="block1.html">1 IaC → Azure</a><a href="block2.html">2 Agent</a><a href="block3.html" class="on">3 FinOps</a><a href="closing.html">Closing</a></div></div>
+<main>
+<h1>Block 3: FinOps — what did AI just cost you? (60 min)</h1>
+<p><b>You will:</b> see the monthly cost of what you built in Block 1, see the SAME ask become 100x more expensive when you prompt AI carelessly, and leave with one line to add to every future IaC spec.</p>
+
+<h2>The AI-era FinOps problem (10 min)</h2>
+<p>AI writes IaC in minutes. A wrong SKU runs for months. "Production-ready" to Copilot often means <b>Premium plan + Geo-redundant SQL + Standard Redis</b> — the exact defaults that go from $50/month to $5000/month.</p>
+<p>Three cost signals you want on every repo:</p>
+<ul>
+<li><b>Estimate</b> — Infracost on every PR (seconds)</li>
+<li><b>Actuals</b> — Azure Cost Analysis (about a day behind)</li>
+<li><b>Budget</b> — Azure Budgets alerts when actuals cross a threshold</li>
+</ul>
+
+<h2>Guided: see the cost of Block 1 (20 min)</h2>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Break down the Block 1 Terraform:</div><pre>cd C:\EYLAB\ey-aidevops-labs\day4\block1</pre><pre>infracost breakdown --path .</pre><div class="sm">if it asks for a key:  infracost configure set api_key $env:INFRACOST_API_KEY</div></div>
+
+<div class="think"><b>Notice:</b> Consumption Function App is &lt;$1/month if you never call it. The Log Analytics workspace is the biggest line. Storage is a few cents.</div>
+
+<div class="think"><b>Trainer screen share:</b> the trainer opens Azure Portal → Cost analysis for a lab resource group and shows what real spend looks like, and why same-day numbers lag by about a day. Estimate (Infracost) and actual (portal) are different signals.</div>
+
+<h2>Solo: break Copilot into expensive mode, then fix it (25 min)</h2>
+
+<div class="step"><span class="tag">📝 EDITOR</span><div>Open the solo spec:</div><pre>code C:\EYLAB\ey-aidevops-labs\day4\labs\block3-finops\spec.md</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Make a fresh work folder for this round:</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>mkdir -Force day4\block3</pre><pre>cd day4\block3</pre><pre>code main.tf</pre></div>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT + 🖥️ TERMINAL</span><div>Follow Round 1 (careless prompt) in the spec. Then:</div><pre>terraform init</pre><pre>infracost breakdown --path .</pre></div>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT + 🖥️ TERMINAL</span><div>Follow Round 2 (spec with cost constraints). Overwrite <code>main.tf</code>. Then run Infracost again.</div></div>
+
+<div class="think"><b>Typical gap:</b> round 1 ≈ $400–$800/month; round 2 ≈ $20–$40/month. Same functional ask.</div>
+
+<h3>Paste back</h3>
+<div class="step"><div>Round 1 total monthly cost:</div><textarea placeholder="$452.17"></textarea></div>
+<div class="step"><div>Round 2 total monthly cost:</div><textarea placeholder="$28.60"></textarea></div>
+<div class="step"><div>What you changed in the spec that moved the price (one or two lines):</div><textarea placeholder="App Service Plan: Premium P1v3 → Basic B1..."></textarea></div>
+
+<h2>Debrief + quiz (5 min)</h2>
+<div class="quiz">
+<p><b>Q1.</b> Why is Infracost on PR better than Azure Budgets alone?</p>
+<textarea></textarea>
+<p><b>Q2.</b> Name one Azure resource where AI commonly picks an expensive default without being asked.</p>
+<textarea></textarea>
+<p><b>Q3.</b> What's the <b>one line</b> you'll add to every IaC spec from Monday?</p>
+<textarea></textarea>
+</div>
+
+<h2>Check yourself</h2>
+<div class="chk">
+<label><input type="checkbox" data-k="0"> I ran Infracost on Block 1 and know its monthly cost</label>
+<label><input type="checkbox" data-k="1"> Round 1 vs Round 2 shows at least a 5x price difference</label>
+<label><input type="checkbox" data-k="2"> I have one line of cost language ready for all my future specs</label>
+</div>
+
+<div class="takeaway"><b>⭐ Takeaway</b>
+<p>"Production-ready" is not a cost spec. If the spec does not say <b>cheapest SKU that meets requirement X</b>, Copilot will reach for Premium. Infracost on PR catches this before merge. Azure Budgets catches it 24 hours after it bills you.</p>
+<p>Reusable line for every IaC spec:</p>
+<pre>Use the cheapest SKU/tier that meets the stated requirements. No premium, no autoscale, no geo-redundancy, no cross-region replication unless explicitly listed.</pre>
+</div>
+
+</main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d4-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+document.querySelectorAll('textarea').forEach((t,i)=>{const k='d4t-'+location.pathname+i;try{t.value=localStorage.getItem(k)||''}catch(e){}t.oninput=()=>{try{localStorage.setItem(k,t.value)}catch(e){}}});
+</script></body></html>

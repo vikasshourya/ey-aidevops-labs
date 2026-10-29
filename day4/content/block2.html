@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Block 2: Build a DevOps agent</title><style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#555;--card:#f5f6f8;--ac:#0a5cc4;--ok:#0b7a3b;--bd:#d8dce2;--tk:#fff7e0}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--fg:#ececec;--mut:#aab;--card:#1e2127;--ac:#6aa8ff;--ok:#4cc380;--bd:#333a44;--tk:#2b2615}}
+body{font-family:'Aptos Narrow',Aptos,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);margin:0;line-height:1.5;font-size:18px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:.2em 0}h2{font-size:24px;margin-top:1.6em}h3{font-size:20px;margin-top:1.2em}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+.nav{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav .brand{font-weight:800;color:var(--ac);margin-right:8px;letter-spacing:.2px}
+.nav a{color:var(--fg);text-decoration:none;font-size:16px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--bd);transition:.15s}
+.nav a:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.nav a.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.step{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.tag{display:inline-block;font-weight:700;font-size:14px;border-radius:6px;padding:2px 8px;background:var(--ac);color:#fff;margin-bottom:6px}
+pre{background:#0f1115;color:#e8e8e8;padding:12px;border-radius:8px;overflow:auto;font-size:15px;white-space:pre-wrap;margin:8px 0;position:relative}
+button.cp{float:right;font-size:13px;margin-left:8px;cursor:pointer;border:1px solid var(--bd);border-radius:6px;padding:2px 8px;background:var(--card);color:var(--fg)}
+.think{border-left:5px solid var(--ac);padding:8px 14px;margin:14px 0;background:var(--card)}
+.takeaway{border:2px solid #e0a800;background:var(--tk);border-radius:10px;padding:12px 16px;margin:24px 0}
+.chk label{display:block;margin:6px 0;cursor:pointer}
+.sm{color:var(--mut);font-size:16px}
+textarea{width:100%;min-height:100px;font-family:ui-monospace,Consolas,monospace;font-size:14px;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);box-sizing:border-box}
+.quiz{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+.quiz p{margin:6px 0 2px}
+.loop{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin:14px 0;font-family:ui-monospace,Consolas,monospace;font-size:15px;line-height:1.9}
+</style></head><body>
+<div class="top"><div class="nav"><span class="brand">DevOps + AI</span><a href="index.html">Day 4 home</a><a href="block1.html">1 IaC → Azure</a><a href="block2.html" class="on">2 Agent</a><a href="block3.html">3 FinOps</a><a href="closing.html">Closing</a></div></div>
+<main>
+<h1>Block 2: Build a DevOps agent (70 min)</h1>
+<p><b>You will:</b> wire up a small Python agent that investigates a failing deployment with <code>kubectl</code>, decides it's unhealthy, proposes a rollback, waits for your <b>yes</b>, then acts. Everything it does is logged.</p>
+
+<h2>What makes it an "agent" (10 min)</h2>
+<div class="loop">
+observe (get_pods, get_logs, get_deployment)<br>
+&nbsp; → decide (healthy or not?)<br>
+&nbsp;&nbsp;&nbsp; → propose action (rollout_undo)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; → <b>human approves</b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; → act (one rollout_undo)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; → audit log (who, what, why, when)
+</div>
+<p>No framework. ~100 lines of Python. Two files: <code>tools.py</code> (what the agent can do) and <code>agent.py</code> (the loop + approval + LLM call).</p>
+
+<h2>Guided: get it running (25 min)</h2>
+
+<div class="step"><span class="tag">📝 EDITOR</span><div>Open both files side by side:</div><pre>code day4\labs\block2-rollback-agent\agent.py day4\labs\block2-rollback-agent\tools.py</pre></div>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT</span><div>Read the loop with Copilot's help. Ask it:</div><pre>Read #file:agent.py and #file:tools.py. In 5 bullets, explain the loop: observe, decide, propose, approve, act. Which function is the approval gate?</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Install the one dependency (one-time):</div><pre>pip install requests</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Apply a healthy deployment to your namespace:</div><pre>cd C:\EYLAB\ey-aidevops-labs</pre><pre>kubectl -n $env:NAMESPACE apply -f day4\labs\block2-rollback-agent\incident.yaml</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Run the agent against the HEALTHY deploy. Expected: "healthy, no action".</div><pre>cd day4\labs\block2-rollback-agent</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Now BREAK it (set a bad image) and run the agent again. Expected: it proposes <code>rollout_undo</code> and asks you to type <b>yes</b>.</div><pre>kubectl -n $env:NAMESPACE set image deploy/shipwave-api api=nginx:does-not-exist-999</pre><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api --timeout=20s</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+
+<div class="think"><b>Checkpoint pause.</b> Did your agent correctly refuse to act without your <b>yes</b>? If it ran <code>rollout_undo</code> without asking, the approval gate is broken — fix it before moving on.</div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Confirm the recovery:</div><pre>kubectl -n $env:NAMESPACE rollout status deploy/shipwave-api</pre><pre>type audit.log</pre></div>
+
+<h2>Solo: extend the agent (30 min)</h2>
+<p>Pick <b>one</b> (or both if fast). Edit <code>agent.py</code> and/or <code>tools.py</code>. Keep the approval gate.</p>
+
+<h3>Option 1 — Tighten the approval</h3>
+<ul>
+<li>Instead of accepting <b>yes</b>, require the operator to type the <b>deployment name</b> exactly.</li>
+<li>Before proposing <code>rollout_undo</code>, call <code>rollout_history</code> and REFUSE to roll back if there is only one revision (nothing to roll back to).</li>
+</ul>
+
+<h3>Option 2 — Add a check</h3>
+<ul>
+<li>Add a new tool <code>get_recent_errors(namespace, name)</code> that greps the deployment's logs for <code>ERROR</code> or <code>500</code> in the last 50 lines and returns the count.</li>
+<li>Teach the system prompt to call it, and mark the deployment unhealthy if the count exceeds 5.</li>
+</ul>
+
+<div class="step"><span class="tag">💬 COPILOT CHAT</span><div>Use Copilot — don't write it from scratch:</div><pre>In #file:agent.py, change approve() so it requires typing the exact deployment name instead of 'yes'. Keep the rejection path. Show me only the diff.</pre></div>
+
+<div class="step"><span class="tag">🖥️ TERMINAL</span><div>Re-run against the broken deploy to prove your extension works. Save the output.</div><pre>kubectl -n $env:NAMESPACE set image deploy/shipwave-api api=nginx:still-broken-888</pre><pre>python agent.py --deployment shipwave-api</pre></div>
+
+<h3>Paste back</h3>
+<div class="step"><div>Which option you did (1, 2, or both):</div><textarea placeholder="Option 1 — tightened approval"></textarea></div>
+<div class="step"><div>Your code diff (just the changed function(s)):</div><textarea placeholder="--- a/agent.py..."></textarea></div>
+<div class="step"><div>Last 10 lines of <code>audit.log</code> showing one broken-and-recovered run:</div><textarea placeholder='{"ts":"...","event":"start",...}'></textarea></div>
+
+<h2>Debrief + quiz (5 min)</h2>
+<div class="quiz">
+<p><b>Q1.</b> The approval gate protects production, but it also helps the <b>operator</b>. How?</p>
+<textarea></textarea>
+<p><b>Q2.</b> What does <code>audit.log</code> capture that a plain <code>kubectl rollout undo</code> command does not?</p>
+<textarea></textarea>
+<p><b>Q3.</b> Name one scenario where this agent should <b>refuse</b> to act, even if the operator types <b>yes</b>.</p>
+<textarea></textarea>
+</div>
+
+<h2>Check yourself</h2>
+<div class="chk">
+<label><input type="checkbox" data-k="0"> Agent ran healthy and said "no action"</label>
+<label><input type="checkbox" data-k="1"> Agent ran broken, proposed rollback, waited for me, then rolled back</label>
+<label><input type="checkbox" data-k="2"> audit.log has entries for start, tool_proposed, approved, tool_result, done</label>
+<label><input type="checkbox" data-k="3"> My extension works (option 1 or 2)</label>
+</div>
+
+<div class="takeaway"><b>⭐ Takeaway</b>
+<p>Agents are not magic. They are a small loop: observe, decide, propose, <b>human approves</b>, act, log. The approval gate is the whole reason a team will let an agent anywhere near production. The audit log is the whole reason a team will keep it there.</p></div>
+
+</main><script>
+document.querySelectorAll('pre').forEach(p=>{const b=document.createElement('button');b.className='cp';b.textContent='Copy';b.onclick=()=>{navigator.clipboard.writeText(p.innerText.replace(/^Copy\n?/,'')).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)})};p.prepend(b)});
+document.querySelectorAll('.chk input').forEach(c=>{const k='d4-'+location.pathname+c.dataset.k;try{c.checked=localStorage.getItem(k)==='1'}catch(e){}c.onchange=()=>{try{localStorage.setItem(k,c.checked?'1':'0')}catch(e){}}});
+document.querySelectorAll('textarea').forEach((t,i)=>{const k='d4t-'+location.pathname+i;try{t.value=localStorage.getItem(k)||''}catch(e){}t.oninput=()=>{try{localStorage.setItem(k,t.value)}catch(e){}}});
+</script></body></html>

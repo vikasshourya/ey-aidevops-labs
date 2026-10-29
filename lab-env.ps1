@@ -18,6 +18,22 @@ $env:AZURE_OPENAI_ENDPOINT    = $card.openai_endpoint      # used by the ai_revi
 $env:AZURE_OPENAI_API_KEY     = $card.openai_key
 $env:AZURE_OPENAI_DEPLOYMENT  = $card.openai_deployment
 
+# Day 4 only: Azure card (resource group + service principal for Terraform). Terraform reads the ARM_* variables itself.
+$azPath = 'C:\EYLAB\azure-card.json'
+if (Test-Path $azPath) {
+    $az = Get-Content $azPath -Raw | ConvertFrom-Json
+    $env:ARM_SUBSCRIPTION_ID = $az.arm_subscription_id
+    $env:ARM_TENANT_ID       = $az.arm_tenant_id
+    $env:ARM_CLIENT_ID       = $az.arm_client_id
+    $env:ARM_CLIENT_SECRET   = $az.arm_client_secret
+    $env:RESOURCE_GROUP      = $az.resource_group
+    $env:AZURE_LOCATION      = $az.location
+    $env:TF_VAR_resource_group_name = $az.resource_group   # Terraform picks these up as variables
+    $env:TF_VAR_location            = $az.location
+    if ($az.infracost_api_key) { $env:INFRACOST_API_KEY = $az.infracost_api_key }
+    $env:INFRACOST_ENABLE_DASHBOARD = 'false'
+}
+
 # gh must use YOUR fork (origin), not the trainer repo that sync.ps1 adds as 'upstream'
 try { $o = git -C 'C:\EYLAB\ey-aidevops-labs' remote get-url origin 2>$null; if ($o -match 'github\.com[:/]([^/\s]+/[^/\s]+?)(\.git)?$') { $env:GH_REPO = $Matches[1] } } catch {}
 

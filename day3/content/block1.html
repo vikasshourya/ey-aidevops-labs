@@ -129,7 +129,7 @@ details.key{border:1px solid var(--bd);border-radius:12px;padding:8px 16px;margi
 <div class="val"><b>Manual today:</b> an on-call engineer opens 4 consoles, searches logs by hand, builds the timeline in a doc, and a war room of 5 to 10 people joins a call. The cause is found by whoever happens to know the system.<br><b>With AI:</b> one prompt gives a timeline, the cause and a proof line, for anyone on the team, at 3 a.m.</div>
 <div class="step "><div class="n">1</div><div class="c"><span class="tag">📝 EDITOR</span>Open <code>incident-logs.txt</code>. Scroll once. Which error is the <b>loudest</b> (most lines)?</div></div>
 
-<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Find</b><span>Count the ERROR lines per service (Ctrl+F, for example <code>ERROR [gateway]</code>).</span></div><div class="dr"><b>Answer</b><span>Which service has the fewest errors, but fails first?</span></div><div class="dp"><b>In production:</b> rank by <b>time</b>, never by error count.</div></div>
+<div class="do"><div class="dh"><span>🛠️ Do this</span><em>3 min</em></div><div class="dr"><b>Find</b><span>Count the ERROR lines per service (Ctrl+F, for example <code>ERROR [gateway]</code>).</span></div><div class="dr"><b>Answer</b><span>Which service has the most errors? Now find which service logs its <b>first</b> ERROR (earliest time). Are they the same?</span></div><div class="dp"><b>In production:</b> rank by <b>time</b>, never by error count.</div></div>
 
 
 <div class="think"><b>Predict first:</b> is the loudest error the cause, or a result of the cause? Write your guess before you ask the AI.</div>
