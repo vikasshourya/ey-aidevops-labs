@@ -1,4 +1,22 @@
-# Capstone: QuickQuote (take-home)
+# Capstone: QuickQuote
+
+## Spec
+
+See [spec.md](spec.md).
+
+## Copilot issue caught
+
+TBD
+
+## Submission checklist
+
+- Fork link: https://github.com/vikasshourya/ey-aidevops-labs
+- Capstone folder: `capstone/`
+- Screenshots: `kubectl get pods` + `helm list`, and `curl /quote?symbol=MSFT`
+
+## Proof
+
+TBD# Capstone: QuickQuote (take-home)
 
 **Due:** Wed 4 Nov 2026 EOD IST. **Submit:** send the trainer your GitHub fork link, the README below, and two screenshots.
 Trainer reviews and signs off your certificate. Your lab namespace and resource group stay available until then.
